@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
+using System;
 
 namespace Ken.Delay
 {
@@ -14,6 +16,9 @@ namespace Ken.Delay
         
         [SerializeField] AudioSource _musicEngine;
         [SerializeField] DelayModel model;
+
+        public IObservable<Unit> OnChangeClamp => _clampChange;
+        private Subject<Unit> _clampChange = new Subject<Unit>();
 
 
         public void AddSlider(){
@@ -61,6 +66,10 @@ namespace Ken.Delay
             return;
         }
 
+        public void Change(){
+            _clampChange.OnNext(Unit.Default);
+        }
+
         //初期化
         public void Reset(){
             //消す
@@ -70,23 +79,22 @@ namespace Ken.Delay
             }
             
             //初期値代入
-            Sliders[0].GetComponent<Slider>().maxValue = _musicEngine.clip.length;
-            Sliders[0].GetComponent<Slider>().value = 0;
+            Sliders[0].GetComponent<DelaySlider>().Ready();
         }
 
 
         #region 保留機能
-            public void Change(){
-            // Handles[now].color = Color.white;
+            // public void ChangeNow(){
+            // // Handles[now].color = Color.white;
 
-            // Debug.Log(now);
-            now+=1;
-            if(now == Sliders.Count) now = 0;
+            // // Debug.Log(now);
+            // now+=1;
+            // if(now == Sliders.Count) now = 0;
 
-            Sliders[now].transform.SetAsLastSibling();
-            // text.text = now.ToString();
-            // Handles[now].color = Color.red;
-        }
+            // Sliders[now].transform.SetAsLastSibling();
+            // // text.text = now.ToString();
+            // // Handles[now].color = Color.red;
+        // }
 
         #endregion
     }

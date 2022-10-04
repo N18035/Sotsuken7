@@ -9,6 +9,8 @@ using System;
 interface IClamp
 {
     public void SetMinMax(out float min,out float max);
+    public void Change();
+    // public IObservable<Unit> OnChangeClamp{get;}
 }
 
 public class SliderClamp : MonoBehaviour
@@ -27,10 +29,17 @@ public class SliderClamp : MonoBehaviour
         s.onValueChanged.AsObservable()
         .Subscribe(_ => {
             s.value = Mathf.Clamp(s.value, Min, Max);
-            Parent.GetComponent<IClamp>().SetMinMax(out var min, out var max);
-            Max = max;
-            Min = min;
+            Parent.GetComponent<IClamp>().Change();
         })
         .AddTo(this);
+
+        // Parent.GetComponent<IClamp>().OnChangeClamp
+        // .Subscribe(_ => {
+        //     Parent.GetComponent<IClamp>().SetMinMax(out var min, out var max);
+        //     Max = max;
+        //     Min = min;
+        // })
+        // .AddTo(this);
+
     }
 }
