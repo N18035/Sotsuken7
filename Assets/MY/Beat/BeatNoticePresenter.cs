@@ -10,7 +10,7 @@ namespace Ken.Beat{
     {
         [SerializeField] AudioSource _musicEngine;
         [SerializeField] Ken.Setting.AudioImport _audioImport;
-        [SerializeField] AudioControll _audioControl;
+        [SerializeField] AudioControl _audioControl;
 
         [SerializeField] BeatNoticeView view; 
 
