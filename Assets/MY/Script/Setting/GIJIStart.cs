@@ -15,7 +15,7 @@ namespace Ken{
         [SerializeField] BeatTypeSetting _beatTypeSetting;
         [SerializeField] DelayCore _delay;
         [SerializeField] Music _music;
-        [SerializeField] AudioControll _audioControll;
+        [SerializeField] AudioControl _audioControll;
 
         [SerializeField] Ken.Main.SoundWave _soundWave;
         [SerializeField] Ken.Main.SeekBar.SeekBarPresenter _seekBarPresenter;

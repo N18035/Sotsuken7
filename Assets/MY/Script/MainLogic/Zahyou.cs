@@ -7,10 +7,9 @@ namespace Ken.Main.SeekBar
         //外部
         [SerializeField] RectTransform canvasRect;
         [SerializeField] Content _contentZoom;
-        [SerializeField] AudioControll _audioController;
 
 
-        public void CalcNowMusicTime(Vector3 mousePos){
+        public void CalcNowMusicTime(Vector3 mousePos ,out float now){
             //引数はスクリーン座標
 
             //キャンバスと画面サイズの倍率を取る
@@ -22,12 +21,8 @@ namespace Ken.Main.SeekBar
             mousePos.y = mousePos.y * magnification - canvasRect.sizeDelta.y / 2;
             mousePos.z = transform.localPosition.z;
 
-            
             //(マウスの場所)/(全体)) = 楽曲のパーセント
-            var now = ((mousePos.x - _contentZoom.NowStart) / (_contentZoom.NowEnd - _contentZoom.NowStart));
-
-            //音楽を変更
-            _audioController.Seek(now);
+            now = ((mousePos.x - _contentZoom.NowStart) / (_contentZoom.NowEnd - _contentZoom.NowStart));
         }
     }
 }
