@@ -10,7 +10,7 @@ interface IClamp
 {
     public void SetMinMax(out float min,out float max);
     public void Change();
-    // public IObservable<Unit> OnChangeClamp{get;}
+    IObservable<Unit> OnChangeClamp { get; }
 }
 
 public class SliderClamp : MonoBehaviour
@@ -23,15 +23,15 @@ public class SliderClamp : MonoBehaviour
 
     void Start()
     {
-        s = this.gameObject.GetComponent<Slider>();
+        // s = this.gameObject.GetComponent<Slider>();
 
-        //上限
-        s.onValueChanged.AsObservable()
-        .Subscribe(_ => {
-            s.value = Mathf.Clamp(s.value, Min, Max);
-            Parent.GetComponent<IClamp>().Change();
-        })
-        .AddTo(this);
+        // //上限
+        // s.onValueChanged.AsObservable()
+        // .Subscribe(_ => {
+        //     s.value = Mathf.Clamp(s.value, Min, Max);
+        //     Parent.GetComponent<IClamp>().Change();
+        // })
+        // .AddTo(this);
 
         // Parent.GetComponent<IClamp>().OnChangeClamp
         // .Subscribe(_ => {

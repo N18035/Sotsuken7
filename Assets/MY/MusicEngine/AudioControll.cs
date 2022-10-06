@@ -9,7 +9,6 @@ namespace Ken
     {
         [SerializeField] Music _music;
         [SerializeField] AudioSource _audioSource;
-        [SerializeField] BeatNotice _beatNotice;
 
         public IObservable<Unit> OnSeek =>_change;
         private Subject<Unit> _change = new Subject<Unit>();

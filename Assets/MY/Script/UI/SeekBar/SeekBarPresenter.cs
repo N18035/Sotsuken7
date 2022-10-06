@@ -18,8 +18,6 @@ namespace Ken.Main.SeekBar
         [SerializeField] AudioSource _musicEngine;
         [SerializeField] AudioControll _audioController;
         [SerializeField] Music _music;
-        [SerializeField] BeatNotice _beatNotice;
-
 
         //曲の長さ(秒)updateで使うからキャッシュ
         float _musicLength;
@@ -49,7 +47,6 @@ namespace Ken.Main.SeekBar
                  _audioController.Seek(t/100f);
                  //FIXMEなぜかここじゃないと動かない
                  _music.LoadTiming();
-                 _beatNotice.DeleteNotice();
             })
             .AddTo(this);
 

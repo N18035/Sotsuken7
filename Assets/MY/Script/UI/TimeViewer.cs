@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ken.UI.TimeViewer
+namespace Ken.TimeViewer
 {
     public class TimeViewer : MonoBehaviour
     {
@@ -12,12 +12,13 @@ namespace Ken.UI.TimeViewer
         [SerializeField] AudioSource _audioSource;
 
         void Update(){
-            // if(_audioSource.clip != null){
-            //     _audioTime.text=_audioSource.time.ToString("F2");
+            if(_audioSource.clip == null) return;
 
-            //     if(Music.Just.IsNull())   _musicTime.text="delay外";
-            //     else                     _musicTime.text=Music.Just.ToString();
-            // }
+            _audioTime.text=_audioSource.time.ToString("F2");
+
+            if(Music.Just.IsNull())   _musicTime.text="delay外";
+            else                     _musicTime.text=Music.Just.ToString();
+            
         }
 
     }
