@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using System;
+using VContainer.Unity;
 
 namespace Ken.Delay
 {
-    public class DelaySlider : MonoBehaviour
+    public class DelaySliderPresenter : MonoBehaviour
     {
-        [SerializeField] DelayModel delay;
+        
         public int ID;
-
         public bool End=false;
         [SerializeField] AudioSource audioSource;
-
-        Slider thisSlider;
+        [SerializeField] DelayModel delay;
+        private Slider thisSlider;
         
         public void Ready(){
             thisSlider.maxValue = audioSource.clip.length;
@@ -23,17 +23,14 @@ namespace Ken.Delay
             End = false;
         }
 
-        void Start()
+        public void Start()
         {
             thisSlider = this.gameObject.GetComponent<Slider>();
             
             thisSlider.onValueChanged.AsObservable()
             .Throttle(TimeSpan.FromMilliseconds(100))
             .Subscribe(t => {
-                delay.TestPublicDelay();
-                // delay.DelaySetup(ID,this.gameObject.GetComponent<Slider>().value);
-                // delay.DelaySetup(ID,this.gameObject.GetComponent<Slider>().value);
-                delay.SetDelay(thisSlider.value);
+                // delay.TestPublicDelay();
             })
             .AddTo(this);
         }
@@ -47,6 +44,7 @@ namespace Ken.Delay
             Debug.Log(ID);
             End = true;
             delay.TestPublicDelay();
+
             }
         }
     }

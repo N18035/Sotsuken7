@@ -3522,7 +3522,7 @@ GameObject:
   - component: {fileID: 297081882}
   - component: {fileID: 297081881}
   m_Layer: 5
-  m_Name: minus
+  m_Name: minusBeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5850,8 +5850,9 @@ GameObject:
   m_Component:
   - component: {fileID: 570198938}
   - component: {fileID: 570198939}
+  - component: {fileID: 570198940}
   m_Layer: 5
-  m_Name: DelaySetting
+  m_Name: DelaySliderSetting
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5894,18 +5895,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 570198937}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d87f21d85bd38af4e841262867ff43b7, type: 3}
+  m_Script: {fileID: 11500000, guid: efa547e6ce700d94d84ba44ad3f8d6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPulsBeat: {fileID: 1578101394}
-  buttonPulsSeconds: {fileID: 340700087}
-  buttonMinusBeat: {fileID: 297081881}
-  buttonMinusSeconds: {fileID: 188591060}
-  nowTimeSet: {fileID: 1593888313}
-  addSlider: {fileID: 1705038254}
-  removeSlider: {fileID: 1477819887}
-  _settings: {fileID: 3630168698130613860}
+  buttonPulsBeat: {fileID: 0}
+  buttonPulsSeconds: {fileID: 0}
+  buttonMinusBeat: {fileID: 0}
+  buttonMinusSeconds: {fileID: 0}
+  nowTimeSet: {fileID: 0}
+  addSlider: {fileID: 0}
+  removeSlider: {fileID: 0}
   manager: {fileID: 3630168698130613858}
+--- !u!114 &570198940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570198937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d66a7909952f7de4786d117fabb968c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _music: {fileID: 3186058684642838091}
+  delaySliderManager: {fileID: 3630168698130613858}
 --- !u!1 &573929583
 GameObject:
   m_ObjectHideFlags: 0
@@ -11689,7 +11703,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1001188271}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999523
+  m_Size: 0.9999953
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13266,7 +13280,7 @@ GameObject:
   - component: {fileID: 1578101395}
   - component: {fileID: 1578101394}
   m_Layer: 5
-  m_Name: plus
+  m_Name: plusBeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15798,7 +15812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -390.31314, y: 48.703373}
+  m_AnchoredPosition: {x: -390.31317, y: 48.703373}
   m_SizeDelta: {x: 780.63, y: 49}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1911738468
@@ -17796,6 +17810,7 @@ GameObject:
   - component: {fileID: 3630168698130613861}
   - component: {fileID: 3630168698130613859}
   - component: {fileID: 3630168698130613858}
+  - component: {fileID: 3630168698130613862}
   - component: {fileID: 3630168698130613860}
   m_Layer: 5
   m_Name: DelaySliderManager
@@ -17817,11 +17832,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   now: 0
-  SliderPrefab: {fileID: 3630168699696078768}
   Sliders:
   - {fileID: 3630168699696078768}
   _musicEngine: {fileID: 3186058684642838090}
-  model: {fileID: 3630168698130613859}
 --- !u!114 &3630168698130613859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17848,11 +17861,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3630168698130613857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02c421b41ad1b4545a3dec0e7c80b56f, type: 3}
+  m_Script: {fileID: 11500000, guid: f4a45081acda76f4e84462fe590e2d75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _music: {fileID: 3186058684642838091}
-  delaySliderManager: {fileID: 3630168698130613858}
 --- !u!114 &3630168698130613861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17867,6 +17879,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 3630168698130613858}
   _music: {fileID: 3186058684642838091}
+--- !u!114 &3630168698130613862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3630168698130613857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4422fdd273dc32d48b3a9d345c9d12f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SliderPrefab: {fileID: 3630168699696078768}
 --- !u!1 &3630168698906733244
 GameObject:
   m_ObjectHideFlags: 0
@@ -18024,10 +18049,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93d3ab5e045228b42b8eaa5fc1b82e0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: {fileID: 3630168698130613859}
   ID: 0
   End: 0
   audioSource: {fileID: 3186058684642838090}
+  delay: {fileID: 3630168698130613859}
 --- !u!114 &3630168699696078770
 MonoBehaviour:
   m_ObjectHideFlags: 0
