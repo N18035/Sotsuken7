@@ -10,8 +10,6 @@ namespace Ken.Delay
 {
     public class DelaySliderPresenter : MonoBehaviour
     {
-        
-        public int ID;
         public bool End=false;
         [SerializeField] AudioSource audioSource;
         [SerializeField] DelayModel delay;
@@ -23,7 +21,7 @@ namespace Ken.Delay
             End = false;
         }
 
-        public void Start()
+        void Start()
         {
             thisSlider = this.gameObject.GetComponent<Slider>();
             
@@ -41,7 +39,6 @@ namespace Ken.Delay
             if(End) return;
 
             if(audioSource.time >= thisSlider.value){
-            Debug.Log(ID);
             End = true;
             delay.TestPublicDelay();
 

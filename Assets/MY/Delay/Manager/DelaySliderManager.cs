@@ -22,7 +22,6 @@ namespace Ken.Delay
         Add add;
         Setting setting;
 
-
         void Start(){
             add = this.GetComponent<Add>();
             setting = this.GetComponent<Setting>();
@@ -30,12 +29,11 @@ namespace Ken.Delay
 
 
         public void AddSlider(){
-            add.Instant();
-            // Sliders.Add(t);
+            var obj = add.Instant();
+            Sliders.Add(obj);
+            //被り防止はいったん無し
             // t.GetComponent<Slider>().value = Sliders[now].GetComponent<Slider>().value + 0.5f;
-            
-            // now = Sliders.Count -1;
-            // t.GetComponent<DelaySliderPresenter>().ID = now;
+            now = Sliders.Count -1;
         }
 
         public void RemoveSlider(){
@@ -71,9 +69,7 @@ namespace Ken.Delay
             return;
         }
 
-        public void Change(){
-            _clampChange.OnNext(Unit.Default);
-        }
+
 
         //初期化
         public void Reset(){
@@ -115,6 +111,10 @@ namespace Ken.Delay
             // // Handles[now].color = Color.red;
         // }
 
+        //clampのやつ
+        public void Change(){
+            _clampChange.OnNext(Unit.Default);
+        }
         #endregion
     }
 }
