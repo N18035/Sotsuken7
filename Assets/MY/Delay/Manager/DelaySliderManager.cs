@@ -11,26 +11,31 @@ namespace Ken.Delay
     {
         public int now=0;
 
-        [SerializeField] GameObject SliderPrefab;
         public List<GameObject> Sliders = new List<GameObject>(1);
         
         [SerializeField] AudioSource _musicEngine;
-        [SerializeField] DelayModel model;
 
         public IObservable<Unit> OnChangeClamp => _clampChange;
         private Subject<Unit> _clampChange = new Subject<Unit>();
 
+        //委譲
+        Add add;
+        Setting setting;
+
+
+        void Start(){
+            add = this.GetComponent<Add>();
+            setting = this.GetComponent<Setting>();
+        }
+
 
         public void AddSlider(){
-            var t = Instantiate(SliderPrefab,this.transform.position,Quaternion.identity);
-            t.transform.SetParent(this.gameObject.transform,false);
-            t.transform.localPosition = new Vector3(-3f,0,0);
-            Sliders.Add(t);
-
-            t.GetComponent<Slider>().value = Sliders[now].GetComponent<Slider>().value + 0.5f;
+            add.Instant();
+            // Sliders.Add(t);
+            // t.GetComponent<Slider>().value = Sliders[now].GetComponent<Slider>().value + 0.5f;
             
-            now = Sliders.Count -1;
-            t.GetComponent<DelaySlider>().ID = now;
+            // now = Sliders.Count -1;
+            // t.GetComponent<DelaySliderPresenter>().ID = now;
         }
 
         public void RemoveSlider(){
@@ -79,7 +84,21 @@ namespace Ken.Delay
             }
             
             //初期値代入
-            Sliders[0].GetComponent<DelaySlider>().Ready();
+            Sliders[0].GetComponent<DelaySliderPresenter>().Ready();
+        }
+
+        public void DelaySetupForAudioTime(){
+            // setting.DelaySetupForAudioTime(Slider[now].value)
+        }
+
+        public void DelayAdjustForBeat(PM pm){
+            // if(Slider[now].value == _delaySlider.maxValue) return;
+            // setting.DelayAdjustForBeat(Slider[now].value,pm);
+        }
+
+        public void DelayAdjustForSecond(PM pm){
+            // if(Slider[now].value == _delaySlider.maxValue) return;
+            // setting.DelayAdjustForSecond(Slider[now].value,pm);
         }
 
 

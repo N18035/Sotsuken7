@@ -5,7 +5,7 @@ using UniRx;
 using UniRx.Triggers;
 
 namespace Ken.Delay{
-    public class DelayView : MonoBehaviour
+    public class DelaySliderSettingPresenter : MonoBehaviour
     {
 
         // private readonly ReactiveProperty<float> _delaySecond = new ReactiveProperty<float>();
@@ -19,35 +19,29 @@ namespace Ken.Delay{
         [SerializeField] Button addSlider;
         [SerializeField] Button removeSlider;
 
-
-        [SerializeField] DelaySettings _settings;
         [SerializeField] DelaySliderManager manager;
 
         void Start(){
 
             buttonPulsBeat.onClick.AsObservable()
-            .Subscribe(_ =>_settings.ChangeDelay(1))
+            .Subscribe(_ =>manager.DelayAdjustForBeat(PM.Plus))
             .AddTo(this);
 
             buttonPulsSeconds.onClick.AsObservable()
-            .Subscribe(_ => _settings.ChangeDelay2(1))
+            .Subscribe(_ => manager.DelayAdjustForSecond(PM.Plus))
             .AddTo(this);
 
             buttonMinusBeat.onClick.AsObservable()
-            .Subscribe(_ => _settings.ChangeDelay(-1))
+            .Subscribe(_ => manager.DelayAdjustForBeat(PM.Minus))
             .AddTo(this);
 
             buttonMinusSeconds.onClick.AsObservable()
-            .Subscribe(_ => _settings.ChangeDelay2(-1))
+            .Subscribe(_ => manager.DelayAdjustForSecond(PM.Minus))
             .AddTo(this);
 
             nowTimeSet.onClick.AsObservable()
-            .Subscribe(_ => _settings.DelaySetupForAudioTime())
+            .Subscribe(_ => manager.DelaySetupForAudioTime())
             .AddTo(this);
-
-            // _delaySecond
-            // .Subscribe(t => _delayStartText.text = t.ToString("F2"))
-            // .AddTo(this);
 
             addSlider.onClick.AsObservable()
             .Subscribe(_ => manager.AddSlider())
@@ -56,6 +50,10 @@ namespace Ken.Delay{
             removeSlider.onClick.AsObservable()
             .Subscribe(_ => manager.RemoveSlider())
             .AddTo(this);
+
+            // _delaySecond
+            // .Subscribe(t => _delayStartText.text = t.ToString("F2"))
+            // .AddTo(this);
         }
     }
 }
