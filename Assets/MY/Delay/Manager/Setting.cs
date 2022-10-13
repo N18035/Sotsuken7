@@ -10,19 +10,17 @@ namespace Ken.Delay
         Minus
     }
 
-    public class Setting : MonoBehaviour
+    public class Setting
     {
-        [SerializeField] Music _music;
-
         public void DelaySetupForAudioTime(ref float value){
             if(AudioCheck.I.TryGetAudioTIme(out var time )) value = time;
             else    throw new Exception("えら-");
         }
 
-        public void DelayAdjustForBeat(ref float value,PM pm){
+        public void DelayAdjustForBeat(ref float value,PM pm,float BPM){
             // 「60(1分)÷BPM(テンポ)で４分音符一拍分の長さ」(s)
             // 例) 60 / 120 = 0.5s
-            float oneBeat = 60f / _music.myTempo;
+            float oneBeat = 60f / BPM;
 
             if(pm == PM.Plus) value += oneBeat;
             else    value -= oneBeat;

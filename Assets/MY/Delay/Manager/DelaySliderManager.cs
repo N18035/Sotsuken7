@@ -18,13 +18,16 @@ namespace Ken.Delay
         public IObservable<Unit> OnChangeClamp => _clampChange;
         private Subject<Unit> _clampChange = new Subject<Unit>();
 
+        public IReactiveProperty<int> OnNowChanged => _nowChange;
+        private readonly ReactiveProperty<int> _nowChange = new ReactiveProperty<int>();
+
         //委譲
         Add add;
         Setting setting;
 
         void Start(){
             add = this.GetComponent<Add>();
-            setting = this.GetComponent<Setting>();
+            setting = new Setting();
         }
 
 
@@ -34,6 +37,7 @@ namespace Ken.Delay
             //被り防止はいったん無し
             // t.GetComponent<Slider>().value = Sliders[now].GetComponent<Slider>().value + 0.5f;
             now = Sliders.Count -1;
+            Sliders[now].GetComponent<SliderPresenter>().SetID(now);
         }
 
         public void RemoveSlider(){
@@ -80,7 +84,7 @@ namespace Ken.Delay
             }
             
             //初期値代入
-            Sliders[0].GetComponent<DelaySliderPresenter>().Ready();
+            Sliders[0].GetComponent<SliderPresenter>().Ready();
         }
 
         public void DelaySetupForAudioTime(){
@@ -88,6 +92,7 @@ namespace Ken.Delay
         }
 
         public void DelayAdjustForBeat(PM pm){
+            //FIXME BPMを追加しようね
             // if(Slider[now].value == _delaySlider.maxValue) return;
             // setting.DelayAdjustForBeat(Slider[now].value,pm);
         }
@@ -97,19 +102,20 @@ namespace Ken.Delay
             // setting.DelayAdjustForSecond(Slider[now].value,pm);
         }
 
+        public void BPMSet(int v)
+        {
+            Sliders[now].GetComponent<SliderPresenter>().SetBPM(v);
+        }
+
+       public void ChangeNow(int id){
+            now+=id;
+            //Sliders[now].transform.SetAsLastSibling();
+            _nowChange.Value = id;
+       }
+
 
         #region 保留機能
-            // public void ChangeNow(){
-            // // Handles[now].color = Color.white;
 
-            // // Debug.Log(now);
-            // now+=1;
-            // if(now == Sliders.Count) now = 0;
-
-            // Sliders[now].transform.SetAsLastSibling();
-            // // text.text = now.ToString();
-            // // Handles[now].color = Color.red;
-        // }
 
         //clampのやつ
         public void Change(){

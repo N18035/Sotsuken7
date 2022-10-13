@@ -8,16 +8,14 @@ using System;
 
 namespace Ken.Delay
 {
-    public class DelayCore : Singleton<DelayCore>
+    public class DelayPresenter : Singleton<DelayPresenter>
     {
         public IObservable<Unit> OnSelectDelay => _selectDelay;
         private Subject<Unit> _selectDelay = new Subject<Unit>();
-
-        // [SerializeField] DelayModel delay;
         [SerializeField] DelaySliderManager manager;
         [SerializeField] Music _music;
         
-        public void ReadyDelay(){
+        public void Initialize(){
             manager.Reset();
         }
 

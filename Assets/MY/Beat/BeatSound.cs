@@ -5,27 +5,27 @@ using UnityEngine;
 namespace Ken.Beat{
     public class BeatSound : MonoBehaviour
     {
-        
-        private AudioSource _audioSource;
+        [SerializeField]private AudioSource _audioSource;
+        private AudioSource _SESource;
         public AudioClip[] SEClips = new AudioClip[3];
-        private int _beatSoundNum;
+        [SerializeField]private int _beatSoundNum=0;
 
         void Start(){
-            _audioSource = GetComponent<AudioSource>();
+            _SESource = GetComponent<AudioSource>();
         }
 
         void Update()
         {
             if(!_audioSource.isPlaying) return;
+            if(_beatSoundNum==2) return;
 
             if(Music.IsJustChangedBeat()){
-                if(_beatSoundNum==2) return;    
-                _audioSource.Play();
+                _SESource.Play();
             }
         }
 
         public void SetBeatSound(int n){
-            _audioSource.clip =  SEClips[n];
+            _SESource.clip =  SEClips[n];
             _beatSoundNum = n;
         } 
     

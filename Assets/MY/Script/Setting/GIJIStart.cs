@@ -13,7 +13,7 @@ namespace Ken{
         [SerializeField] AudioImport _audioImport;
         [SerializeField] BPMSetting _bpmSetting;
         [SerializeField] BeatTypeSetting _beatTypeSetting;
-        [SerializeField] DelayCore _delay;
+        [SerializeField] DelayPresenter _delay;
         [SerializeField] Music _music;
         [SerializeField] AudioControl _audioControll;
 
@@ -71,7 +71,7 @@ namespace Ken{
             mask.LoadMask();
 
             //Settingを初期化
-            _delay.ReadyDelay();
+            _delay.Initialize();
             _audioControll.ReadyAudioTime();
 
             //Musicに値を適応
