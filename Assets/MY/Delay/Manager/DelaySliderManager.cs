@@ -108,21 +108,22 @@ namespace Ken.Delay
         }
 
        public void ChangeNow(int id){
-            now+=id;
+            now=id;
             //Sliders[now].transform.SetAsLastSibling();
             _nowChange.Value = id;
        }
 
        //テスト段階
         public Data CreateDelayTimeData(){
-            List<float> time = new List<float>(1);
-            List<int> bpm = new List<int>(1);
-            time[0] = Sliders[0].GetComponent<Slider>().value;
+            List<float> time = new List<float>(){0};
+            List<int> bpm = new List<int>(){0};
+            // time[0] = Sliders[0].GetComponent<Slider>().value;
+            time[0] = 0f;
             bpm[0] = Sliders[0].GetComponent<SliderPresenter>().BPMs;
 
             for(int i=1;i<Sliders.Count;i++){
                 time.Add(Sliders[i].GetComponent<Slider>().value);
-                bpm.Add(Sliders[0].GetComponent<SliderPresenter>().BPMs);
+                bpm.Add(Sliders[i].GetComponent<SliderPresenter>().BPMs);
             }
             Data data = new Data(time,bpm);
             return data;

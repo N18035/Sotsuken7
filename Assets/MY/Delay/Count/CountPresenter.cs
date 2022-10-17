@@ -24,6 +24,7 @@ namespace Ken.Delay{
             audioControl.OnPlayStart
             .Subscribe(_ =>{
                 data = manager.CreateDelayTimeData();
+                Debug.Log("てすと");
                Enf().Forget();
             })
             .AddTo(this);
@@ -59,7 +60,10 @@ namespace Ken.Delay{
         [SerializeField] public List<int> BPM;
 
         public Data(List<float> t, List<int> b){
-            foreach(int num in t)
+            Time = new List<int>(){0};
+            BPM = new List<int>(){120};
+            
+            for(int num=0; num < t.Count;num++)
             {
                 // Console.WriteLine(num * 2);
                 Time[num] = (int)(t[num] * 1000);

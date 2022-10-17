@@ -35,6 +35,7 @@ namespace Ken
 
             //FIXME 色々残ってる
             //audioのplayから直で呼べないから仮でこうしてる
+            _play.OnNext(Unit.Default);
             _music.Play("musicengine","");
         }
         public void Pause(){
