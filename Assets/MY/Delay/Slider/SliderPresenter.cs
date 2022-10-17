@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using UniRx.Triggers;
 using System;
 using VContainer.Unity;
 using Ken.Setting;
@@ -21,6 +22,7 @@ namespace Ken.Delay
         [SerializeField] SettingPresenter setting;
         private Slider thisSlider;
         [SerializeField]int BPM;
+        public int BPMs => BPM;
         [SerializeField]int ID;
         
         public void Ready(){
@@ -34,9 +36,8 @@ namespace Ken.Delay
             BPM = 120;
             thisSlider = this.gameObject.GetComponent<Slider>();
             
-            thisSlider.onValueChanged.AsObservable()
-            .Throttle(TimeSpan.FromMilliseconds(100))
-            .Subscribe(t => {
+            view.OnView
+            .Subscribe(_ => {
                 delaySliderManager.ChangeNow(ID);
                 view.SetColor(true);
                 setting.SetBPM(BPM.ToString());
@@ -50,16 +51,16 @@ namespace Ken.Delay
                 
         }
 
-        void Update(){
-            if(!audioSource.isPlaying) return;
+        // void Update(){
+        //     if(!audioSource.isPlaying) return;
 
-            if(End) return;
+        //     if(End) return;
 
-            if(audioSource.time >= thisSlider.value){
-            End = true;
-            TestPublicDelay(BPM);
-            }
-        }
+        //     if(audioSource.time >= thisSlider.value){
+        //     End = true;
+        //     TestPublicDelay(BPM);
+        //     }
+        // }
 
         public void SetID(int id)
         {
@@ -71,7 +72,7 @@ namespace Ken.Delay
             BPM = bpm;
         }
 
-        public void TestPublicDelay(int bpm){
+        void TestPublicDelay(int bpm){
             // 一般的には44100
             _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
             _bpmSetting.ChangeBPM(bpm);

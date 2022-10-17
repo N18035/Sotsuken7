@@ -12,7 +12,7 @@ namespace Ken.Zoom
         [SerializeField] Text text;
         [SerializeField] Button Plus;
         [SerializeField] Button Minus;
-        [SerializeField] ZoomController _zoom;
+        [SerializeField] ZoomModel _zoom;
         [SerializeField] AudioSource _audioSource;
         [SerializeField] Image ViewPortMask;
 

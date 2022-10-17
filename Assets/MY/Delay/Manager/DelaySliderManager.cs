@@ -113,6 +113,21 @@ namespace Ken.Delay
             _nowChange.Value = id;
        }
 
+       //テスト段階
+        public Data CreateDelayTimeData(){
+            List<float> time = new List<float>(1);
+            List<int> bpm = new List<int>(1);
+            time[0] = Sliders[0].GetComponent<Slider>().value;
+            bpm[0] = Sliders[0].GetComponent<SliderPresenter>().BPMs;
+
+            for(int i=1;i<Sliders.Count;i++){
+                time.Add(Sliders[i].GetComponent<Slider>().value);
+                bpm.Add(Sliders[0].GetComponent<SliderPresenter>().BPMs);
+            }
+            Data data = new Data(time,bpm);
+            return data;
+        }
+
 
         #region 保留機能
 
@@ -124,4 +139,3 @@ namespace Ken.Delay
         #endregion
     }
 }
-

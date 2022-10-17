@@ -36,7 +36,7 @@ namespace Ken.Main
 
         [SerializeField] Music music;
         [SerializeField] AudioSource Audio;
-        [SerializeField] ZoomController _zoomController;
+        [SerializeField] Ken.Zoom.ZoomModel _zoomController;
         [SerializeField] Content _contentZoom;
         [SerializeField] TimeLineView _timeLineView;
 
@@ -104,11 +104,11 @@ namespace Ken.Main
 
             //誤差修正。余白を設けてるので、誤差は絶対に発生する
             //FIXMEハードコーディングになってます
-            float fixL = (1942.94f + _contentZoom._originStart*5 ) /4 * (zoomLevel-1); 
-            float fixR = (1948f - _contentZoom._originalEnd*5 ) /4 * (zoomLevel-1);            
+            float fixL = (1942.94f + KenConst._originStart*5 ) /4 * (zoomLevel-1); 
+            float fixR = (1948f - KenConst._originalEnd*5 ) /4 * (zoomLevel-1);            
             
-            float left = _contentZoom._originStart * zoomLevel - fixL;
-            float right = _contentZoom._originalEnd * zoomLevel +fixR;
+            float left = KenConst._originStart * zoomLevel - fixL;
+            float right = KenConst._originalEnd * zoomLevel +fixR;
             
             var length = Mathf.Abs(left)+right;
 
