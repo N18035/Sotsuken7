@@ -6,7 +6,7 @@ using System;
 
 public class TimeLineView : MonoBehaviour
 {
-    [SerializeField] Ken.Main.ZoomController _zoomController;
+    [SerializeField] Ken.Zoom.ZoomModel _zoomController;
     // [SerializeField] TimeLine _timeline;
     [SerializeField] GameObject TLImage;
     [SerializeField] GameObject TLImage2nd;

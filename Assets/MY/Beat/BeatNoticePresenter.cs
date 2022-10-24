@@ -12,7 +12,8 @@ namespace Ken.Beat{
         [SerializeField] Ken.Setting.AudioImport _audioImport;
         [SerializeField] AudioControl _audioControl;
 
-        [SerializeField] BeatNoticeView view; 
+        [SerializeField] BeatNoticeView view;
+        [SerializeField] Music _music;
 
 
         void Start(){
@@ -26,6 +27,7 @@ namespace Ken.Beat{
             .AddTo(this);
 
             _audioControl.OnSeek
+            .Where(_ => _musicEngine.timeSamples < _music.EntryPointSample)
             .Subscribe(_ => view.FixBeatNotice())
             .AddTo(this);
         }

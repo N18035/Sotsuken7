@@ -8,9 +8,6 @@ namespace Ken.Main{
     public class Content : MonoBehaviour
     {
         #region  変数類
-        //単位はUIのRect座標
-        public readonly float _originStart=-382.96f;
-        public readonly float _originalEnd=388.62f;
         //contentオブジェクトのwidthを見るといいよ
         [SerializeField] private int _originalSoundWaveLength=780;
         private int _nowSoundWaveLength;
@@ -26,14 +23,14 @@ namespace Ken.Main{
 
         #region  外部参照
         [SerializeField] GameObject content;
-        [SerializeField] ZoomController _zoomController;
+        [SerializeField] Ken.Zoom.ZoomModel _zoomController;
         [SerializeField] Scrollbar _scrollBar;
         #endregion
 
         public void ReadyStartAndEnd()
         {
-            _nowStart = _originStart;
-            _nowEnd = _originalEnd;
+            _nowStart = KenConst._originStart;
+            _nowEnd = KenConst._originalEnd;
             _nowSoundWaveLength = _originalSoundWaveLength;
         }
 
@@ -63,8 +60,8 @@ namespace Ken.Main{
             var sliderIncrement = -1 * zoomIncrement * _scrollBar.value;
 
             //倍率とスライダーに合わせてstartとendを変更してクリックの場所を特定出来るようにする
-            _nowStart = _originStart + sliderIncrement;
-            _nowEnd = (_originalEnd + zoomIncrement) + sliderIncrement;
+            _nowStart = KenConst._originStart + sliderIncrement;
+            _nowEnd = (KenConst._originalEnd + zoomIncrement) + sliderIncrement;
         }
     }
 }

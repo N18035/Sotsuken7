@@ -15,7 +15,6 @@ namespace Ken.Delay{
         [SerializeField] Button buttonPulsBeat;
         [SerializeField] Button buttonPulsSeconds;
         [SerializeField] Button nowTimeSet;
-        // [SerializeField] Text _delayStartText;
         [SerializeField] Button addSlider;
         [SerializeField] Button removeSlider;
         
@@ -54,12 +53,9 @@ namespace Ken.Delay{
 
             bpmInputField.OnEndEditAsObservable()
             .Where(t => t!=null)
-            .Subscribe(_ => manager.BPMSet(int.Parse(bpmInputField.text)))
+            .Where(t => t!="")
+            .Subscribe(t => manager.BPMSet(t))
             .AddTo(this);
-
-            // _delaySecond
-            // .Subscribe(t => _delayStartText.text = t.ToString("F2"))
-            // .AddTo(this);
         }
 
         public void SetBPM(string bpm)

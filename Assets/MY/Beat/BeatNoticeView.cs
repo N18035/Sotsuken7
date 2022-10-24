@@ -11,13 +11,11 @@ namespace Ken.Beat{
 
         public void FixBeatNotice(){
             DeleteNotice();
-
             //delayチェック
-            // if(_musicEngine.timeSamples < _music.EntryPointSample)  return;
-
-            int i = Music.Just.Beat * 2 + Music.GetUnit % 2;
-            _beatNoticeImage[i].color =  _onColor;
+            int n = Music.Just.Beat * 2 + Music.GetUnit % 2;
+            _beatNoticeImage[n].color =  _onColor;
             // Debug.Log(Music.Just.Beat +":"+ Music.GetUnit % 2);
+            
         }
 
         public void DeleteNotice(){

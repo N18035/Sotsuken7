@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
+using UniRx.Triggers;
 using System;
 using VContainer.Unity;
 using Ken.Setting;
@@ -19,9 +20,14 @@ namespace Ken.Delay
         [SerializeField] Music _music;
         [SerializeField] BPMSetting _bpmSetting;
         [SerializeField] SettingPresenter setting;
+        [SerializeField]AudioControl _audioControl;
         private Slider thisSlider;
         [SerializeField]int BPM;
+        public int BPMs => BPM;
         [SerializeField]int ID;
+        [SerializeField] float ClampMax;
+        [SerializeField] float ClampMin;
+        
         
         public void Ready(){
             thisSlider.maxValue = audioSource.clip.length;
@@ -34,12 +40,12 @@ namespace Ken.Delay
             BPM = 120;
             thisSlider = this.gameObject.GetComponent<Slider>();
             
-            thisSlider.onValueChanged.AsObservable()
-            .Throttle(TimeSpan.FromMilliseconds(100))
-            .Subscribe(t => {
+            view.OnView
+            .Subscribe(_ => {
                 delaySliderManager.ChangeNow(ID);
                 view.SetColor(true);
-                setting.SetBPM(BPM.ToString());
+                int text = (int)((float)BPM * _audioControl.Speed.Value);
+                setting.SetBPM(text.ToString());
             })
             .AddTo(this);
 
@@ -47,19 +53,35 @@ namespace Ken.Delay
                 .Where(now => now!=ID)
                 .Subscribe(_ => view.SetColor(false))
                 .AddTo(this);
-                
+
+            //以下CLAMP
+            thisSlider.onValueChanged.AsObservable()
+            .Subscribe(_ => {
+                thisSlider.value = Mathf.Clamp(thisSlider.value, ClampMin, ClampMax);
+                delaySliderManager.Change();
+            })
+            .AddTo(this);
+
+            delaySliderManager.OnChangeClamp
+            .Subscribe(_ => {
+                delaySliderManager.SetMinMax(ID,out var min, out var max);
+                ClampMax = max;
+                ClampMin = min;
+            })
+            .AddTo(this);
+
         }
 
-        void Update(){
-            if(!audioSource.isPlaying) return;
+        // void Update(){
+        //     if(!audioSource.isPlaying) return;
 
-            if(End) return;
+        //     if(End) return;
 
-            if(audioSource.time >= thisSlider.value){
-            End = true;
-            TestPublicDelay(BPM);
-            }
-        }
+        //     if(audioSource.time >= thisSlider.value){
+        //     End = true;
+        //     TestPublicDelay(BPM);
+        //     }
+        // }
 
         public void SetID(int id)
         {
@@ -71,14 +93,14 @@ namespace Ken.Delay
             BPM = bpm;
         }
 
-        public void TestPublicDelay(int bpm){
-            // 一般的には44100
-            _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(bpm);
-            _bpmSetting.Apply();
-            //TODO UIに指示
-            DelayPresenter.I.GO();
-        }
+        // void TestPublicDelay(int bpm){
+        //     // 一般的には44100
+        //     _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
+        //     _bpmSetting.ChangeBPM(bpm);
+        //     _bpmSetting.Apply();
+        //     //TODO UIに指示
+        //     DelayPresenter.I.GO();
+        // }
     }
 }
 
