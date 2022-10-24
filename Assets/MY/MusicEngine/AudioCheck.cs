@@ -8,6 +8,14 @@ namespace Ken
     {
         [SerializeField] AudioSource _audio;
 
+        public bool IsPlaying(){
+            return _audio.isPlaying;
+        }
+        public bool IsNull(){
+            if(_audio.clip == null) return true;
+            return false;
+        }
+
         public bool TryGetAudioTIme(out float time){
             if(_audio.clip == null){
                 time = 0;

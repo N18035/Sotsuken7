@@ -20,33 +20,68 @@ namespace Ken.Delay{
 
         [SerializeField]Data data;
 
+        int tmpIndex=-1;
+        int NowIndex=-1;
+
+
+        void Update()
+        {
+            if(!audioSource.isPlaying) return;
+
+            for(int i=0;i<data.Time.Count;i++){
+                //1:再生時間がdata[]よりも小さいと判定が出たら終了する
+                if(audioSource.time < data.Time[i])    break;
+                else    tmpIndex = i;
+            }
+
+            //2:それが今のindexと同じなら変更しない
+            if(NowIndex == tmpIndex)    return;
+            //ここまで来たという事はtmpが新しいdelayになっている
+            PublicDelay();
+        }
+
         void Start(){
             audioControl.OnPlayStart
             .Subscribe(_ =>{
                 data = manager.CreateDelayTimeData();
-                Debug.Log("てすと");
-               Enf().Forget();
+                // StarPublish();
+                //最初がdelay外にならない対応
+                // NowIndex=0;
             })
             .AddTo(this);
+
+            // tmpIndex
+            // .Subscribe(_ => PublicDelay())
+            // .AddTo(this);
         }
 
 
         //FIXMEキャンセルを呼べ
-        async UniTaskVoid Enf(){
-            int i=0;
+        // async UniTaskVoid Enf(){
+        //     int i=0;
 
-            while(i !=data.Time.Count){
-                await UniTask.Delay(data.Time[i]);
-                PublicDelay(data.BPM[i]);
-                i++;
-            }
+        //     while(i !=data.Time.Count){
+        //         await UniTask.Delay(data.Time[i]);
+        //         PublicDelay(data.BPM[i]);
+        //         i++;
+        //     }
+        // }
+
+        void PublicDelay(){
+            // 一般的には44100
+            _music.EntryPointSample = (int)(data.Time[tmpIndex] * audioSource.clip.frequency);
+            _bpmSetting.ChangeBPM(data.BPM[tmpIndex]);
+            _bpmSetting.Apply();
+            NowIndex = tmpIndex;
+            //TODO UIに指示
+            DelayPresenter.I.GO();
         }
 
-        void PublicDelay(int bpm){
-            // 一般的には44100
-            _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(bpm);
+        void StarPublish(){
+            _music.EntryPointSample = (int)(data.Time[0] * audioSource.clip.frequency);
+            _bpmSetting.ChangeBPM(data.BPM[0]);
             _bpmSetting.Apply();
+            NowIndex = 0;
             //TODO UIに指示
             DelayPresenter.I.GO();
         }
@@ -56,23 +91,15 @@ namespace Ken.Delay{
     [System.Serializable]
     public class Data
     {
-        [SerializeField] public List<int> Time;
+        [SerializeField] public List<float> Time;
         [SerializeField] public List<int> BPM;
 
         public Data(List<float> t, List<int> b){
-            Time = new List<int>(){0};
+            Time = new List<float>(){0};
             BPM = new List<int>(){120};
             
-            for(int num=0; num < t.Count;num++)
-            {
-                // Console.WriteLine(num * 2);
-                Time[num] = (int)(t[num] * 1000);
-                if(num!=0){
-                    var tmp = Time[num]-Time[num-1];
-                    Time[num] = tmp;
-                }
-            }
 
+            Time = t;
             BPM = b;
         }
     }

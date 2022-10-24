@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
@@ -15,6 +17,9 @@ namespace Ken
 
         public IObservable<Unit> OnPlayStart =>_play;
         private Subject<Unit> _play = new Subject<Unit>();
+
+        public IReadOnlyReactiveProperty<float> Speed => speed;
+        private readonly ReactiveProperty<float> speed = new ReactiveProperty<float>(1);
 
         private int loopStart=0;
         private int loopEnd=0;
@@ -35,8 +40,14 @@ namespace Ken
 
             //FIXME 色々残ってる
             //audioのplayから直で呼べないから仮でこうしてる
+            StartCoroutine("stop");
             _play.OnNext(Unit.Default);
             _music.Play("musicengine","");
+        }
+        IEnumerator stop()
+        {
+            //3秒停止
+            yield return new WaitForSeconds(1);
         }
         public void Pause(){
             if(_audioSource.clip == null) return;
@@ -79,6 +90,7 @@ namespace Ken
         public void ChangeSpeed(float v){
             //ピッチ変えるだけならnullチェック不要
             _audioSource.pitch = v;
+            speed.Value = v;
         }
 
         public void ReadyAudioTime(){

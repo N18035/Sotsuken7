@@ -1112,7 +1112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &82886347
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5228,6 +5228,7 @@ GameObject:
   - component: {fileID: 495469176}
   - component: {fileID: 495469178}
   - component: {fileID: 495469177}
+  - component: {fileID: 495469179}
   m_Layer: 5
   m_Name: DelayText
   m_TagString: Untagged
@@ -5296,6 +5297,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 495469175}
   m_CullTransparentMesh: 1
+--- !u!114 &495469179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495469175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 257d01ebd69c8bf4aa91e5a8ee578e16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 3630168698130613858}
 --- !u!1 &513287738
 GameObject:
   m_ObjectHideFlags: 0
@@ -7557,7 +7571,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &730871209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10503,7 +10517,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1117693225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43822e94163b88e4292fa3cf6e62b2f6, type: 3}
+  m_Script: {fileID: 11500000, guid: 30558ef1a1f7878489b0be8854c55123, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MaxZoomLevel: 10
@@ -12022,6 +12036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309565173}
   - component: {fileID: 1309565172}
+  - component: {fileID: 1309565174}
   m_Layer: 0
   m_Name: Delay
   m_TagString: Untagged
@@ -12057,6 +12072,26 @@ Transform:
   m_Father: {fileID: 2073358085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1309565174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309565171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7268cd589f5c8d40bbf7b2a66f4744f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioControl: {fileID: 2001237076}
+  manager: {fileID: 3630168698130613858}
+  _music: {fileID: 3186058684642838091}
+  _bpmSetting: {fileID: 1881552122}
+  audioSource: {fileID: 3186058684642838090}
+  data:
+    Time: []
+    BPM: 
 --- !u!1 &1349014106
 GameObject:
   m_ObjectHideFlags: 0
@@ -14406,7 +14441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1593888312
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14611,6 +14646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 1533869536}
   _bpmSetting: {fileID: 1881552122}
+  _audioControl: {fileID: 2001237076}
 --- !u!1 &1614097875
 GameObject:
   m_ObjectHideFlags: 0
@@ -16280,6 +16316,7 @@ MonoBehaviour:
   _audioImport: {fileID: 1999263488}
   _audioControl: {fileID: 2001237076}
   view: {fileID: 3186058684382487062}
+  _music: {fileID: 3186058684642838091}
 --- !u!1 &1838777345
 GameObject:
   m_ObjectHideFlags: 0
@@ -18055,6 +18092,7 @@ GameObject:
   - component: {fileID: 3186058684642838091}
   - component: {fileID: 3186058684642838089}
   - component: {fileID: 3186058684642838092}
+  - component: {fileID: 3186058684642838093}
   m_Layer: 0
   m_Name: musicengine
   m_TagString: Untagged
@@ -18221,6 +18259,19 @@ MonoBehaviour:
   _content: {fileID: 835569932}
   _audioSource: {fileID: 3186058684642838090}
   mask: {fileID: 1555609656}
+--- !u!114 &3186058684642838093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3186058684642838088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b52103789ba8d4596adebec9aa9b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audio: {fileID: 3186058684642838090}
 --- !u!4 &3186058684642838133
 Transform:
   m_ObjectHideFlags: 0
@@ -18355,6 +18406,7 @@ MonoBehaviour:
   Sliders:
   - {fileID: 3630168699696078768}
   _musicEngine: {fileID: 3186058684642838090}
+  _audioControl: {fileID: 2001237076}
 --- !u!114 &3630168698130613862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18602,8 +18654,11 @@ MonoBehaviour:
   _music: {fileID: 3186058684642838091}
   _bpmSetting: {fileID: 1881552122}
   setting: {fileID: 570198939}
+  _audioControl: {fileID: 2001237076}
   BPM: 0
   ID: 0
+  ClampMax: 0
+  ClampMin: 0
 --- !u!114 &3630168699696078773
 MonoBehaviour:
   m_ObjectHideFlags: 0

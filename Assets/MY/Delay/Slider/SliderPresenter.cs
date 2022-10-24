@@ -20,10 +20,14 @@ namespace Ken.Delay
         [SerializeField] Music _music;
         [SerializeField] BPMSetting _bpmSetting;
         [SerializeField] SettingPresenter setting;
+        [SerializeField]AudioControl _audioControl;
         private Slider thisSlider;
         [SerializeField]int BPM;
         public int BPMs => BPM;
         [SerializeField]int ID;
+        [SerializeField] float ClampMax;
+        [SerializeField] float ClampMin;
+        
         
         public void Ready(){
             thisSlider.maxValue = audioSource.clip.length;
@@ -40,7 +44,8 @@ namespace Ken.Delay
             .Subscribe(_ => {
                 delaySliderManager.ChangeNow(ID);
                 view.SetColor(true);
-                setting.SetBPM(BPM.ToString());
+                int text = (int)((float)BPM * _audioControl.Speed.Value);
+                setting.SetBPM(text.ToString());
             })
             .AddTo(this);
 
@@ -48,7 +53,23 @@ namespace Ken.Delay
                 .Where(now => now!=ID)
                 .Subscribe(_ => view.SetColor(false))
                 .AddTo(this);
-                
+
+            //以下CLAMP
+            thisSlider.onValueChanged.AsObservable()
+            .Subscribe(_ => {
+                thisSlider.value = Mathf.Clamp(thisSlider.value, ClampMin, ClampMax);
+                delaySliderManager.Change();
+            })
+            .AddTo(this);
+
+            delaySliderManager.OnChangeClamp
+            .Subscribe(_ => {
+                delaySliderManager.SetMinMax(ID,out var min, out var max);
+                ClampMax = max;
+                ClampMin = min;
+            })
+            .AddTo(this);
+
         }
 
         // void Update(){
@@ -72,14 +93,14 @@ namespace Ken.Delay
             BPM = bpm;
         }
 
-        void TestPublicDelay(int bpm){
-            // 一般的には44100
-            _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(bpm);
-            _bpmSetting.Apply();
-            //TODO UIに指示
-            DelayPresenter.I.GO();
-        }
+        // void TestPublicDelay(int bpm){
+        //     // 一般的には44100
+        //     _music.EntryPointSample = (int)(audioSource.time * audioSource.clip.frequency);
+        //     _bpmSetting.ChangeBPM(bpm);
+        //     _bpmSetting.Apply();
+        //     //TODO UIに指示
+        //     DelayPresenter.I.GO();
+        // }
     }
 }
 
