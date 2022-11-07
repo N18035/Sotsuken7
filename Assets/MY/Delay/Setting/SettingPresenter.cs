@@ -72,5 +72,9 @@ namespace Ken.Delay{
         {
             bpmInputField.text = bpm;
         }
+
+        public void SetBPMColor(Color color){
+            bpmInputField.textComponent.color = color;
+        }
     }
 }

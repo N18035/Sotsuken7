@@ -55,6 +55,9 @@ namespace Ken.Delay
             .Subscribe(_ =>{
                 int text = (int)((float)BPM * _audioControl.Speed.Value);
                 setting.SetBPM(text.ToString());
+
+                if(_audioControl.Speed.Value == 1)  setting.SetBPMColor(Color.black);
+                else setting.SetBPMColor(Color.red);
             })
             .AddTo(this);
 
