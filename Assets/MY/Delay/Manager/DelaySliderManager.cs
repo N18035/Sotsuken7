@@ -14,6 +14,7 @@ namespace Ken.Delay
         public List<GameObject> Sliders = new List<GameObject>(1);
         
         [SerializeField] AudioSource _musicEngine;
+        [SerializeField] CountPresenter count;
 
         public IObservable<Unit> OnChangeClamp => _clampChange;
         private Subject<Unit> _clampChange = new Subject<Unit>();
@@ -176,6 +177,8 @@ namespace Ken.Delay
                     Sliders[i].GetComponent<SliderPresenter>().SetBPM(bpm);
                 }
             }else            Sliders[now].GetComponent<SliderPresenter>().SetBPM(bpm);
+
+            count.PublicValidate();
         }
 
        public void ChangeNow(int id){
