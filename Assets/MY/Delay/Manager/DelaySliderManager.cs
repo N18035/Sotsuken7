@@ -22,6 +22,8 @@ namespace Ken.Delay
         private readonly ReactiveProperty<int> _nowChange = new ReactiveProperty<int>();
         [SerializeField]AudioControl _audioControl;
 
+        public bool allChange=false;
+
         //委譲
         Add add;
 
@@ -31,8 +33,36 @@ namespace Ken.Delay
         }
 
 
-        public void AddSlider(){
+        public void AddSlider(PM pm){
+            //FIXMEホントは極端に端っこやと弾く
             if(AudioCheck.I.IsNull()) return;
+            
+            // var obj = add.Instant();
+            // int tmp;
+            // //右に追加
+            // // if(pm==PM.Plus){
+            //     // if(now==Sliders.Count-1){
+            //     //     tmp=Sliders.Count-1;
+            //     //     Sliders.Add(obj);
+            //     // }else{
+            //     //     tmp=now+1;
+            //     //     Sliders.Insert(now+1,obj);
+            //     // }
+            //     // obj.GetComponent<Slider>().value = Sliders[tmp].GetComponent<Slider>().value + 0.5f;
+            // // }
+            // // else{
+            // //     if(now==0){
+            // //         Destroy(obj);
+            // //         return;
+            // //     }else{
+            // //         tmp=now-1;
+            // //         Sliders.Insert(now-1,obj);
+            // //     }
+            // //     obj.GetComponent<Slider>().value = Sliders[tmp].GetComponent<Slider>().value - 0.5f;
+            // // }
+            // //被り防止はいったん無し
+            // Sliders[tmp].GetComponent<SliderPresenter>().SetID(tmp);
+            // ChangeNow(tmp);
 
             var obj = add.Instant();
             Sliders.Add(obj);
@@ -110,9 +140,9 @@ namespace Ken.Delay
         }
 
         public void DelaySetupForAudioTime(){
-            // if(AudioCheck.I.TryGetAudioTIme(out var time ))
-            //     Sliders[now].GetComponent<Slider>().value = time;
-            // else    throw new Exception("えら-");
+            if(AudioCheck.I.TryGetAudioTIme(out var time ))
+                Sliders[now].GetComponent<Slider>().value = time;
+            else    throw new Exception("えら-");
         }
 
         public void DelayAdjustForBeat(PM pm){
@@ -140,13 +170,19 @@ namespace Ken.Delay
         {
             //見た目から現実に変換する必要がある
             int bpm = (int)(float.Parse(v) / _audioControl.Speed.Value);
-            Sliders[now].GetComponent<SliderPresenter>().SetBPM(bpm);
+
+            if(allChange){
+                for(int i=0;i<Sliders.Count;i++){
+                    Sliders[i].GetComponent<SliderPresenter>().SetBPM(bpm);
+                }
+            }else            Sliders[now].GetComponent<SliderPresenter>().SetBPM(bpm);
         }
 
        public void ChangeNow(int id){
             now=id;
             //Sliders[now].transform.SetAsLastSibling();
             _nowChange.Value = id;
+            _clampChange.OnNext(Unit.Default);
        }
 
        //テスト段階

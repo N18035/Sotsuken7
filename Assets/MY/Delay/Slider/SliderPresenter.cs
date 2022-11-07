@@ -17,16 +17,19 @@ namespace Ken.Delay
         [SerializeField] DelaySliderManager delaySliderManager;
         // [SerializeField] DelayBPMPresenter BPMPresenter;
         [SerializeField] SliderView view;
+        [SerializeField] HandliePresenter handlie;
         [SerializeField] Music _music;
         [SerializeField] BPMSetting _bpmSetting;
         [SerializeField] SettingPresenter setting;
         [SerializeField]AudioControl _audioControl;
+        [SerializeField] CountPresenter count;
         private Slider thisSlider;
         [SerializeField]int BPM;
         public int BPMs => BPM;
         [SerializeField]int ID;
         [SerializeField] float ClampMax;
         [SerializeField] float ClampMin;
+        
         
         
         public void Ready(){
@@ -40,10 +43,16 @@ namespace Ken.Delay
             BPM = 120;
             thisSlider = this.gameObject.GetComponent<Slider>();
             
-            view.OnView
+            handlie.OnView
             .Subscribe(_ => {
                 delaySliderManager.ChangeNow(ID);
-                view.SetColor(true);
+                int text = (int)((float)BPM * _audioControl.Speed.Value);
+                setting.SetBPM(text.ToString());
+            })
+            .AddTo(this);
+
+            _audioControl.Speed
+            .Subscribe(_ =>{
                 int text = (int)((float)BPM * _audioControl.Speed.Value);
                 setting.SetBPM(text.ToString());
             })
@@ -67,6 +76,13 @@ namespace Ken.Delay
                 delaySliderManager.SetMinMax(ID,out var min, out var max);
                 ClampMax = max;
                 ClampMin = min;
+            })
+            .AddTo(this);
+
+            thisSlider.onValueChanged.AsObservable()
+            .Throttle(TimeSpan.FromMilliseconds(100))
+            .Subscribe(t => {
+                count.PublicValidate();
             })
             .AddTo(this);
 

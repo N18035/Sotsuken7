@@ -24,23 +24,23 @@ public class SliderClamp : MonoBehaviour
 
     void Start()
     {
-        s = this.gameObject.GetComponent<Slider>();
+        // s = this.gameObject.GetComponent<Slider>();
 
-        //上限
-        s.onValueChanged.AsObservable()
-        .Subscribe(_ => {
-            s.value = Mathf.Clamp(s.value, Min, Max);
-            Parent.GetComponent<IClamp>().Change();
-        })
-        .AddTo(this);
+        // //上限
+        // s.onValueChanged.AsObservable()
+        // .Subscribe(_ => {
+        //     s.value = Mathf.Clamp(s.value, Min, Max);
+        //     Parent.GetComponent<IClamp>().Change();
+        // })
+        // .AddTo(this);
 
-        Parent.GetComponent<IClamp>().OnChangeClamp
-        .Subscribe(_ => {
-            Parent.GetComponent<IClamp>().SetMinMax(out var min, out var max);
-            Max = max;
-            Min = min;
-        })
-        .AddTo(this);
+        // Parent.GetComponent<IClamp>().OnChangeClamp
+        // .Subscribe(_ => {
+        //     Parent.GetComponent<IClamp>().SetMinMax(out var min, out var max);
+        //     Max = max;
+        //     Min = min;
+        // })
+        // .AddTo(this);
 
     }
 }
