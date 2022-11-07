@@ -13,15 +13,15 @@ namespace Ken.Delay{
         [SerializeField] AudioControl audioControl;
         [SerializeField] DelaySliderManager manager;
         [SerializeField] Music _music;
-        [SerializeField] Ken.Setting.BPMSetting _bpmSetting;
+        [SerializeField] Setting.BPMSetting _bpmSetting;
         [SerializeField] AudioSource audioSource;
  
         bool Flag=false;
 
         [SerializeField]Data data;
 
-        int tmpIndex=-1;
-        int NowIndex=-1;
+        int tmpIndex=0;
+        int NowIndex=0;
 
 
         void Update()
@@ -37,37 +37,23 @@ namespace Ken.Delay{
             //2:それが今のindexと同じなら変更しない
             if(NowIndex == tmpIndex)    return;
             //ここまで来たという事はtmpが新しいdelayになっている
-            PublicDelay();
+            ValidateDelay();
+            Debug.Log("パブリッシャー");
         }
 
         void Start(){
             audioControl.OnPlayStart
             .Subscribe(_ =>{
-                data = manager.CreateDelayTimeData();
+                // data = manager.CreateDelayTimeData();
                 // StarPublish();
-                //最初がdelay外にならない対応
-                // NowIndex=0;
+                ValidateDelay();
             })
             .AddTo(this);
-
-            // tmpIndex
-            // .Subscribe(_ => PublicDelay())
-            // .AddTo(this);
         }
 
-
-        //FIXMEキャンセルを呼べ
-        // async UniTaskVoid Enf(){
-        //     int i=0;
-
-        //     while(i !=data.Time.Count){
-        //         await UniTask.Delay(data.Time[i]);
-        //         PublicDelay(data.BPM[i]);
-        //         i++;
-        //     }
-        // }
-
-        void PublicDelay(){
+        void ValidateDelay(){
+            //データ取得
+            data = manager.CreateDelayTimeData();
             // 一般的には44100
             _music.EntryPointSample = (int)(data.Time[tmpIndex] * audioSource.clip.frequency);
             _bpmSetting.ChangeBPM(data.BPM[tmpIndex]);
@@ -77,13 +63,8 @@ namespace Ken.Delay{
             DelayPresenter.I.GO();
         }
 
-        void StarPublish(){
-            _music.EntryPointSample = (int)(data.Time[0] * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(data.BPM[0]);
-            _bpmSetting.Apply();
-            NowIndex = 0;
-            //TODO UIに指示
-            DelayPresenter.I.GO();
+        public void PublicValidate(){
+            ValidateDelay();
         }
     }
 

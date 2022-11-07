@@ -9,19 +9,25 @@ namespace Ken.Delay{
     {
 
         // private readonly ReactiveProperty<float> _delaySecond = new ReactiveProperty<float>();
+        [SerializeField] Toggle toggle;
         [SerializeField] InputField bpmInputField;
         [SerializeField] Button buttonMinusBeat;
         [SerializeField] Button buttonMinusSeconds;
         [SerializeField] Button buttonPulsBeat;
         [SerializeField] Button buttonPulsSeconds;
         [SerializeField] Button nowTimeSet;
-        [SerializeField] Button addSlider;
+        [SerializeField] Button addSliderRight;
+        [SerializeField] Button addSliderLeft;
         [SerializeField] Button removeSlider;
         
 
         [SerializeField] DelaySliderManager manager;
 
         void Start(){
+
+            toggle.onValueChanged.AsObservable()
+            .Subscribe(t => manager.allChange=t)
+            .AddTo(this);
 
             buttonPulsBeat.onClick.AsObservable()
             .Subscribe(_ =>manager.DelayAdjustForBeat(PM.Plus))
@@ -43,8 +49,12 @@ namespace Ken.Delay{
             .Subscribe(_ => manager.DelaySetupForAudioTime())
             .AddTo(this);
 
-            addSlider.onClick.AsObservable()
-            .Subscribe(_ => manager.AddSlider())
+            addSliderLeft.onClick.AsObservable()
+            .Subscribe(_ => manager.AddSlider(PM.Minus))
+            .AddTo(this);
+
+            addSliderRight.onClick.AsObservable()
+            .Subscribe(_ => manager.AddSlider(PM.Plus))
             .AddTo(this);
 
             removeSlider.onClick.AsObservable()
@@ -61,6 +71,10 @@ namespace Ken.Delay{
         public void SetBPM(string bpm)
         {
             bpmInputField.text = bpm;
+        }
+
+        public void SetBPMColor(Color color){
+            bpmInputField.textComponent.color = color;
         }
     }
 }
