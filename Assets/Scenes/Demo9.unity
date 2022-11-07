@@ -12229,7 +12229,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1001188271}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999369
+  m_Size: 0.99999523
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16956,7 +16956,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -390.31317, y: 48.703373}
+  m_AnchoredPosition: {x: -390.31314, y: 48.703373}
   m_SizeDelta: {x: 780.63, y: 49}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1911738468
@@ -18928,6 +18928,7 @@ MonoBehaviour:
   Sliders:
   - {fileID: 3630168699696078768}
   _musicEngine: {fileID: 3186058684642838090}
+  count: {fileID: 1309565174}
   _audioControl: {fileID: 2001237076}
   allChange: 0
 --- !u!114 &3630168698130613862
