@@ -14,6 +14,7 @@ namespace Ken.Beat{
 
         [SerializeField] BeatNoticeView view;
         [SerializeField] Music _music;
+        [SerializeField] AudioSource _audioSource;
 
 
         void Start(){
@@ -27,9 +28,18 @@ namespace Ken.Beat{
             .AddTo(this);
 
             _audioControl.OnSeek
-            .Where(_ => _musicEngine.timeSamples < _music.EntryPointSample)
-            .Subscribe(_ => view.FixBeatNotice())
+            // .Where(_ => _musicEngine.timeSamples < _music.EntryPointSample)
+            .Where(_ => !Music.Just.IsNull())
+            .Subscribe(_ => view.DeleteNotice())
             .AddTo(this);
+        }
+
+
+    void Update(){
+            if(_audioSource.clip == null) return;
+
+            if(Music.Just.IsNull())   view.DeleteNotice();
+            
         }
     }
 }

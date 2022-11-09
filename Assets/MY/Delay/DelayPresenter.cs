@@ -14,6 +14,7 @@ namespace Ken.Delay
         private Subject<Unit> _selectDelay = new Subject<Unit>();
         [SerializeField] DelaySliderManager manager;
         [SerializeField] Music _music;
+        [SerializeField] TimeView time;
         
         public void Initialize(){
             manager.Reset();
