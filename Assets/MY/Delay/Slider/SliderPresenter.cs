@@ -23,12 +23,14 @@ namespace Ken.Delay
         [SerializeField] SettingPresenter setting;
         [SerializeField]AudioControl _audioControl;
         [SerializeField] CountPresenter count;
+        [SerializeField] TimeView time;
         private Slider thisSlider;
         [SerializeField]int BPM;
         public int BPMs => BPM;
         [SerializeField]int ID;
         [SerializeField] float ClampMax;
         [SerializeField] float ClampMin;
+        
         
         
         
@@ -43,7 +45,7 @@ namespace Ken.Delay
             BPM = 120;
             thisSlider = this.gameObject.GetComponent<Slider>();
             
-            handlie.OnView
+            handlie.OnHandle
             .Subscribe(_ => {
                 delaySliderManager.ChangeNow(ID);
                 int text = (int)((float)BPM * _audioControl.Speed.Value);
@@ -66,26 +68,32 @@ namespace Ken.Delay
                 .Subscribe(_ => view.SetColor(false))
                 .AddTo(this);
 
-            //以下CLAMP
-            thisSlider.onValueChanged.AsObservable()
-            .Subscribe(_ => {
-                thisSlider.value = Mathf.Clamp(thisSlider.value, ClampMin, ClampMax);
-                delaySliderManager.Change();
-            })
+            delaySliderManager.OnNowChanged
+            .Where(now => now==ID)
+            .Subscribe(_ => view.SetColor(true))
             .AddTo(this);
 
-            delaySliderManager.OnChangeClamp
-            .Subscribe(_ => {
-                delaySliderManager.SetMinMax(ID,out var min, out var max);
-                ClampMax = max;
-                ClampMin = min;
-            })
-            .AddTo(this);
+            //以下CLAMP
+            // thisSlider.onValueChanged.AsObservable()
+            // .Subscribe(_ => {
+            //     thisSlider.value = Mathf.Clamp(thisSlider.value, ClampMin, ClampMax);
+            //     delaySliderManager.Change();
+            // })
+            // .AddTo(this);
+
+            // delaySliderManager.OnChangeClamp
+            // .Subscribe(_ => {
+            //     delaySliderManager.SetMinMax(ID,out var min, out var max);
+            //     ClampMax = max;
+            //     ClampMin = min;
+            // })
+            // .AddTo(this);
 
             thisSlider.onValueChanged.AsObservable()
             .Throttle(TimeSpan.FromMilliseconds(100))
             .Subscribe(t => {
                 count.PublicValidate();
+                time.U();
             })
             .AddTo(this);
 

@@ -16,7 +16,7 @@ namespace Ken.TimeViewer
 
             _audioTime.text=_audioSource.time.ToString("F2");
 
-            if(Music.Just.IsNull())   _musicTime.text="delay外";
+            if(Music.Just.IsNull())   _musicTime.text="---";
             else                     _musicTime.text=Music.Just.ToString();
             
         }

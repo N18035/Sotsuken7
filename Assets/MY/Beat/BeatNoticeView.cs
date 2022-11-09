@@ -10,12 +10,11 @@ namespace Ken.Beat{
         Color _offColor = new Color32 (100 ,100 ,100, 150);
 
         public void FixBeatNotice(){
-            DeleteNotice();
-            //delayチェック
-            int n = Music.Just.Beat * 2 + Music.GetUnit % 2;
-            _beatNoticeImage[n].color =  _onColor;
-            // Debug.Log(Music.Just.Beat +":"+ Music.GetUnit % 2);
-            
+            // DeleteNotice();
+            // //delayチェック
+            // int n = Music.Just.Beat * 2 + Music.GetUnit % 2;
+            // _beatNoticeImage[n].color =  _onColor;
+            // // Debug.Log(Music.Just.Beat +":"+ Music.GetUnit % 2);
         }
 
         public void DeleteNotice(){

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -17,8 +15,9 @@ namespace Ken.Delay{
         [SerializeField] AudioSource audioSource;
  
         bool Flag=false;
+        float buffer;
 
-        [SerializeField]Data data;
+        [SerializeField]DelayData data;
 
         int tmpIndex=0;
         int NowIndex=0;
@@ -28,9 +27,9 @@ namespace Ken.Delay{
         {
             if(!audioSource.isPlaying) return;
 
-            for(int i=0;i<data.Time.Count;i++){
+            for(int i=0;i<data.GetCount();i++){
                 //1:再生時間がdata[]よりも小さいと判定が出たら終了する
-                if(audioSource.time < data.Time[i])    break;
+                if(audioSource.time + buffer < data.GetTime(i))    break;
                 else    tmpIndex = i;
             }
 
@@ -54,34 +53,21 @@ namespace Ken.Delay{
         void ValidateDelay(){
             //データ取得
             data = manager.CreateDelayTimeData();
+
             // 一般的には44100
-            _music.EntryPointSample = (int)(data.Time[tmpIndex] * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(data.BPM[tmpIndex]);
+            _music.EntryPointSample = (int)(data.GetTime(tmpIndex) * audioSource.clip.frequency);
+            _bpmSetting.ChangeBPM(data.GetBPM(tmpIndex));
             _bpmSetting.Apply();
             NowIndex = tmpIndex;
             //TODO UIに指示
-            DelayPresenter.I.GO();
+            // DelayPresenter.I.GO();
+            //60/bpm/4 = bar * 速度ごとに間に合うラインがあるからそこを見つける(speed * 係数)
+            buffer = 60f / _music.myTempo / 4 * audioControl.Speed.Value * 2;
+            // Debug.Log(buffer);
         }
 
         public void PublicValidate(){
             ValidateDelay();
-        }
-    }
-
-
-    [System.Serializable]
-    public class Data
-    {
-        [SerializeField] public List<float> Time;
-        [SerializeField] public List<int> BPM;
-
-        public Data(List<float> t, List<int> b){
-            Time = new List<float>(){0};
-            BPM = new List<int>(){120};
-            
-
-            Time = t;
-            BPM = b;
         }
     }
 }

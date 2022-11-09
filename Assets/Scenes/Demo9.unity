@@ -12228,8 +12228,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1001188272}
   m_HandleRect: {fileID: 1001188271}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.99999523
+  m_Value: -0.008333334
+  m_Size: 0.99998987
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12383,6 +12383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 3630168698130613858}
   _music: {fileID: 3186058684642838091}
+  time: {fileID: 0}
 --- !u!4 &1309565173
 Transform:
   m_ObjectHideFlags: 0
@@ -12415,8 +12416,7 @@ MonoBehaviour:
   _bpmSetting: {fileID: 1881552122}
   audioSource: {fileID: 3186058684642838090}
   data:
-    Time: []
-    BPM: 
+    tb: []
 --- !u!1 &1326784022
 GameObject:
   m_ObjectHideFlags: 0
@@ -16839,6 +16839,7 @@ MonoBehaviour:
   _audioControl: {fileID: 2001237076}
   view: {fileID: 3186058684382487062}
   _music: {fileID: 3186058684642838091}
+  _audioSource: {fileID: 3186058684642838090}
 --- !u!1 &1838777345
 GameObject:
   m_ObjectHideFlags: 0
@@ -16956,7 +16957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -390.31314, y: 48.703373}
+  m_AnchoredPosition: {x: -390.3131, y: 48.703373}
   m_SizeDelta: {x: 780.63, y: 49}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1911738468
@@ -19196,6 +19197,7 @@ MonoBehaviour:
   setting: {fileID: 570198939}
   _audioControl: {fileID: 2001237076}
   count: {fileID: 1309565174}
+  time: {fileID: 495469179}
   BPM: 0
   ID: 0
   ClampMax: 0

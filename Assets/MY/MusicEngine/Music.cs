@@ -50,6 +50,7 @@ public class Music : MonoBehaviour
 		public double Tempo;
 		public int StartBar;
 		// this will be automatically setted on validate.
+		// Validate時に自動的に設定されます
 		public int StartTimeSamples;
 		// this will only work when CreateSectionClips == true.
 		public ClipType LoopType;

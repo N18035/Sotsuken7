@@ -13,12 +13,12 @@ namespace Ken.Delay{
             startTime = this.gameObject.GetComponent<Text>();
 
             manager.OnNowChanged
-            .Subscribe(_ => startTime.text= manager.GetNowValue().ToString("F2"))
+            .Subscribe(_ => U())
             .AddTo(this);
+        }
 
-            manager.OnChangeClamp
-            .Subscribe(_ => startTime.text = manager.GetNowValue().ToString("F2"))
-            .AddTo(this);
+        public void U(){
+            startTime.text= manager.GetNowValue().ToString("F2");
         }
 
     }

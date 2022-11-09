@@ -5,11 +5,13 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 
+namespace Ken.Delay
+{
 public class HandliePresenter : MonoBehaviour
 {
     bool isGrag;
-    public IObservable<Unit> OnView => _view;
-    private Subject<Unit> _view = new Subject<Unit>();
+    public IObservable<Unit> OnHandle => _handle;
+    private Subject<Unit> _handle = new Subject<Unit>();
     [SerializeField] SliderView view;
     
     void Start()
@@ -18,12 +20,16 @@ public class HandliePresenter : MonoBehaviour
 
 
         eventTrigger.OnPointerEnterAsObservable()
-            .Subscribe(_ => Selected())
+            .Subscribe(_ =>{
+                Selected();
+                _handle.OnNext(Unit.Default);
+            })
             .AddTo(this);
 
         eventTrigger.OnPointerDownAsObservable()
             .Subscribe(_ =>{
                 isGrag=true;
+                _handle.OnNext(Unit.Default);
                 Selected();
             })
             .AddTo(this);
@@ -39,12 +45,12 @@ public class HandliePresenter : MonoBehaviour
                 isGrag=false;
             })
             .AddTo(this);
-
     }
 
     void Selected(){
-        _view.OnNext(Unit.Default);
         view.BigImage();
         view.SetColor(true);
     }
+}
+
 }
