@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using System;
+using System.Linq;
 
 namespace Ken.Delay
 {
@@ -19,6 +20,7 @@ namespace Ken.Delay
         public IReactiveProperty<int> OnNowChanged => _nowChange;
         private readonly ReactiveProperty<int> _nowChange = new ReactiveProperty<int>();
         [SerializeField]AudioControl _audioControl;
+        [SerializeField] SettingPresenter setting;
 
         public bool allChange=false;
         float oneBeat;
@@ -38,6 +40,7 @@ namespace Ken.Delay
             var obj = add.Instant();
             Sliders.Add(obj);
             //被り防止はいったん無し
+            obj.GetComponent<SliderPresenter>().Ready();
             obj.GetComponent<Slider>().value = Sliders[now].GetComponent<Slider>().value + 0.5f;
             now = Sliders.Count -1;
             Sliders[now].GetComponent<SliderPresenter>().SetID(now);
@@ -46,13 +49,16 @@ namespace Ken.Delay
 
         public void RemoveSlider(){
             if(AudioCheck.I.IsNull()) return;
-            if(now <= 0) return;
+            if(Sliders.Count <= 1) return;
 
             var tmp = Sliders[now];
             Sliders.RemoveAt(now);
             
             Destroy(tmp);
             ChangeNow(0);
+            for(int i=0;i<Sliders.Count;i++){
+                Sliders[i].GetComponent<SliderPresenter>().SetID(i);
+            }
             count.PublicValidate();
         }
 
@@ -133,6 +139,28 @@ namespace Ken.Delay
 
         public float GetNowValue(){
             return Sliders[now].GetComponent<Slider>().value;
+        }
+
+        public void CheckBatting(){
+            if(Sliders.Count <= 1) return;
+
+            List<int> lis = new List<int>();
+            for(int i=0;i<Sliders.Count;i++){
+                // Debug.Log("かte"+(int)(Sliders[i].GetComponent<Slider>().value * 100));
+                lis.Add((int)(Sliders[i].GetComponent<Slider>().value * 100));
+            }
+
+            var duplicates = lis.GroupBy(x => x)
+                .Where(x => x.Count() > 1)
+                .Select(x => new { Item = x.Key, Count = x.Count() })
+                .ToList();
+
+            //被りを検知
+            if(String.Join(", ", duplicates) != ""){
+                setting.Batting(true);
+                Debug.Log(String.Join(", ", duplicates));
+            } 
+            else setting.Batting(false);
         }
     }
 
