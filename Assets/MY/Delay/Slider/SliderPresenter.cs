@@ -12,7 +12,7 @@ namespace Ken.Delay
 {
     public class SliderPresenter : MonoBehaviour
     {
-        public bool End=false;
+        public bool Origin=true;
         [SerializeField] AudioSource audioSource;
         [SerializeField] DelaySliderManager delaySliderManager;
         // [SerializeField] DelayBPMPresenter BPMPresenter;
@@ -23,21 +23,21 @@ namespace Ken.Delay
         [SerializeField] SettingPresenter setting;
         [SerializeField]AudioControl _audioControl;
         [SerializeField] CountPresenter count;
+        [SerializeField] DelaySliderManager manager;
         [SerializeField] TimeView time;
         private Slider thisSlider;
         [SerializeField]int BPM;
         public int BPMs => BPM;
         [SerializeField]int ID;
-        [SerializeField] float ClampMax;
-        [SerializeField] float ClampMin;
         
         
         
         
         public void Ready(){
+            thisSlider = this.gameObject.GetComponent<Slider>();
             thisSlider.maxValue = audioSource.clip.length;
             thisSlider.value = 0;
-            End = false;
+            Origin = false;
         }
 
         void Start()
@@ -73,13 +73,6 @@ namespace Ken.Delay
             .Subscribe(_ => view.SetColor(true))
             .AddTo(this);
 
-            //以下CLAMP
-            // thisSlider.onValueChanged.AsObservable()
-            // .Subscribe(_ => {
-            //     thisSlider.value = Mathf.Clamp(thisSlider.value, ClampMin, ClampMax);
-            //     delaySliderManager.Change();
-            // })
-            // .AddTo(this);
 
             // delaySliderManager.OnChangeClamp
             // .Subscribe(_ => {
@@ -92,6 +85,7 @@ namespace Ken.Delay
             thisSlider.onValueChanged.AsObservable()
             .Throttle(TimeSpan.FromMilliseconds(100))
             .Subscribe(t => {
+                manager.CheckBatting();//被りがあれば警告
                 count.PublicValidate();
                 time.U();
             })

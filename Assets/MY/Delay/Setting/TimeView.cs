@@ -18,7 +18,7 @@ namespace Ken.Delay{
         }
 
         public void U(){
-            startTime.text= manager.GetNowValue().ToString("F2");
+            startTime.text= manager.GetNowValue().ToString("F3");
         }
 
     }

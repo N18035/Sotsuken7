@@ -19,6 +19,7 @@ namespace Ken.Delay{
         [SerializeField] Button addSliderRight;
         [SerializeField] Button addSliderLeft;
         [SerializeField] Button removeSlider;
+        [SerializeField] GameObject keikoku;
         
 
         [SerializeField] DelaySliderManager manager;
@@ -75,6 +76,11 @@ namespace Ken.Delay{
 
         public void SetBPMColor(Color color){
             bpmInputField.textComponent.color = color;
+        }
+
+        public void Batting(bool flag){
+            if(flag)    keikoku.SetActive(true);
+            else keikoku.SetActive(false);
         }
     }
 }
