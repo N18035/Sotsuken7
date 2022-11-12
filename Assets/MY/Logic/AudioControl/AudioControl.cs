@@ -71,10 +71,10 @@ namespace Ken
             _audioSource.time -= 10f;
             _change.OnNext(Unit.Default);
         }
-        public void Seek(float lengthPar){
+        public void Seek(float length){
             if(_audioSource.clip == null) return;
 
-            _audioSource.time = lengthPar * _audioSource.clip.length;
+            _audioSource.time = length;
             _change.OnNext(Unit.Default);
         }
 

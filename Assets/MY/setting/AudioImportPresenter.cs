@@ -11,8 +11,9 @@ namespace Ken.Setting
         [SerializeField] Text text;
         [SerializeField] Button button;
         [SerializeField] AudioImport _audioImport;
+    
+        public void Start(){
 
-        void Start(){
             _audioImport.ClipName
             .Subscribe(n => text.text=n)
             .AddTo(this);

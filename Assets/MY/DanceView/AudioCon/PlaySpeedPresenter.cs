@@ -20,7 +20,6 @@ namespace Ken.DanceView
         void ChangeSpeed(int v){
             float speed = float.Parse(_dropdown.options[v].text);
             _audioCon.ChangeSpeed(speed);
-            // setting.SetActive(false);
         }
     }
 

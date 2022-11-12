@@ -12,8 +12,8 @@ namespace Ken.Setting
         [SerializeField] Ken.Beat.BeatSound _beatSound;
         [SerializeField] Dropdown _dropdown;
         [SerializeField] Button button;
-        [SerializeField] GameObject setting;
         [SerializeField] Text text;
+        [SerializeField] GameObject setting;
 
         Dictionary<int, string> ClipNameDictionary = new Dictionary<int, string>()
         {
@@ -21,6 +21,7 @@ namespace Ken.Setting
             {1, "拍手"},
             {2, "音無し"},
         };
+
 
         void Start(){
             _dropdown.onValueChanged.AsObservable()
