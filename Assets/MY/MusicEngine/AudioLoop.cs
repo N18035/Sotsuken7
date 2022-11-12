@@ -10,7 +10,7 @@ namespace Ken{
         [SerializeField] InputField endPoint;
         [SerializeField] AudioControl _audioControl;
         [SerializeField] Toggle toggle;
-        [SerializeField] Ken.Setting.AudioImport _audioImport;
+        [SerializeField] AudioImport _audioImport;
 
 
         void Start(){
