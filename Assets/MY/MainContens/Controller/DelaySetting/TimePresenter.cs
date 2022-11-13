@@ -4,7 +4,7 @@ using UniRx;
 using UniRx.Triggers;
 
 namespace Ken.Delay{
-    public class TimeView : MonoBehaviour
+    public class TimePresenter : MonoBehaviour
     {
         Text startTime;
         [SerializeField] DelaySliderManager manager;
@@ -13,11 +13,11 @@ namespace Ken.Delay{
             startTime = this.gameObject.GetComponent<Text>();
 
             manager.OnNowChanged
-            .Subscribe(_ => U())
+            .Subscribe(_ => ChangeTime())
             .AddTo(this);
         }
 
-        public void U(){
+        public void ChangeTime(){
             startTime.text= manager.GetNowValue().ToString("F3");
         }
 

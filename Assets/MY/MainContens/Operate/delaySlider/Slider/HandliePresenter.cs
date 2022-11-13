@@ -7,29 +7,32 @@ using UniRx.Triggers;
 
 namespace Ken.Delay
 {
+[RequireComponent(typeof(SliderPresenter))]
+[RequireComponent(typeof(ObservableEventTrigger))]
 public class HandliePresenter : MonoBehaviour
 {
     bool isGrag;
-    public IObservable<Unit> OnHandle => _handle;
-    private Subject<Unit> _handle = new Subject<Unit>();
     [SerializeField] SliderView view;
+    [SerializeField] DelaySliderManager Manager;
+    SliderPresenter sliderP;
     
     void Start()
     {
+        sliderP = this.gameObject.GetComponent<SliderPresenter>();
         var eventTrigger = this.gameObject.GetComponent<ObservableEventTrigger>();
 
-
+        //ハンドルにふれる系
         eventTrigger.OnPointerEnterAsObservable()
             .Subscribe(_ =>{
                 Selected();
-                _handle.OnNext(Unit.Default);
+                Manager.ChangeNow(sliderP.ID);
             })
             .AddTo(this);
 
         eventTrigger.OnPointerDownAsObservable()
             .Subscribe(_ =>{
                 isGrag=true;
-                _handle.OnNext(Unit.Default);
+                Manager.ChangeNow(sliderP.ID);
                 Selected();
             })
             .AddTo(this);
@@ -45,6 +48,17 @@ public class HandliePresenter : MonoBehaviour
                 isGrag=false;
             })
             .AddTo(this);
+
+        //外部系
+        Manager.OnNowChanged
+        .Where(now => now == sliderP.ID)
+        .Subscribe(_ => view.SetColor(true))
+        .AddTo(this);
+
+        Manager.OnNowChanged
+        .Where(now => now != sliderP.ID)
+        .Subscribe(_ => view.SetColor(false))
+        .AddTo(this);
     }
 
     void Selected(){

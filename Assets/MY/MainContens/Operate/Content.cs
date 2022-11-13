@@ -21,7 +21,7 @@ namespace Ken.Main{
         #endregion
 
         #region  外部参照
-        [SerializeField] Ken.Zoom.ZoomModel _zoomController;
+        [SerializeField] Ken.Zoom.ZoomModel _zoomModel;
         #endregion
 
         public void ReadyStartAndEnd()
@@ -35,7 +35,7 @@ namespace Ken.Main{
         // Start is called before the first frame update
         void Start()
         {
-            _zoomController.ZoomLevel
+            _zoomModel.ZoomLevel
             .Subscribe(zl =>{
                 //Content引き伸ばす
                 _nowSoundWaveLength = _originalSoundWaveLength * zl;
@@ -48,7 +48,7 @@ namespace Ken.Main{
 
         public void Moved(float v){
             //倍率によってずれる大きさ
-            var zoomLevel = _zoomController.ZoomLevel.Value -1;
+            var zoomLevel = _zoomModel.ZoomLevel.Value -1;
             var zoomIncrement =  _originalSoundWaveLength* zoomLevel;
             var sliderIncrement = -1 * zoomIncrement * v;
 

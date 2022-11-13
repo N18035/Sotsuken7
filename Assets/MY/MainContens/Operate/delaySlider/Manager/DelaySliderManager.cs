@@ -17,7 +17,6 @@ namespace Ken.Delay
         private readonly ReactiveProperty<int> _nowChange = new ReactiveProperty<int>();
 
         [SerializeField] CountPresenter count;
-        [SerializeField]AudioControl _audioControl;
         [SerializeField] SettingPresenter setting;
 
         public bool allChange=false;
@@ -34,6 +33,7 @@ namespace Ken.Delay
 
         public void AddSlider(PM pm){
             if(check.ClipIsNull()) return;
+            
             for(int i=0;i<Sliders.Count;i++){
                 if(Sliders[i].GetComponent<Slider>().value == check.GetTime()) return;
             }
@@ -71,7 +71,10 @@ namespace Ken.Delay
             for(int i=1;i<Sliders.Count;i++){
                 Destroy(Sliders[i]);
                 Sliders.RemoveAt(i);
+                Debug.Log(i);
             }
+
+            // add.Reset();
             
             //初期値代入
             Sliders[0].GetComponent<SliderPresenter>().Ready();
@@ -103,11 +106,8 @@ namespace Ken.Delay
             else    Sliders[now].GetComponent<Slider>().value -= 0.01f;
         }
 
-        public void BPMSet(string v)
+        public void BPMSet(int bpm)
         {
-            //見た目から現実に変換する必要がある
-            int bpm = (int)(float.Parse(v) / _audioControl.Speed.Value);
-
             if(allChange){
                 for(int i=0;i<Sliders.Count;i++){
                     Sliders[i].GetComponent<SliderPresenter>().SetBPM(bpm);
@@ -142,6 +142,10 @@ namespace Ken.Delay
 
         public float GetNowValue(){
             return Sliders[now].GetComponent<Slider>().value;
+        }
+
+        public int GetNowBPM(){
+            return Sliders[now].GetComponent<SliderPresenter>().BPMs;
         }
 
         public void CheckBatting(){

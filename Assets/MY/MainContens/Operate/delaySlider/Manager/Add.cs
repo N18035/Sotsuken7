@@ -15,6 +15,13 @@ namespace Ken.Delay
             t.transform.localPosition = new Vector3(-3f,0,0);
             return t;
         }
+
+        public void Reset(){
+            Destroy(Parents);
+
+            var t = Instantiate(Parents,this.transform.position,Quaternion.identity);
+            t.transform.SetParent(this.gameObject.transform,false);
+        }
     }
 }
 

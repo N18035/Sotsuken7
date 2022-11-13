@@ -69,9 +69,6 @@ namespace Ken{
 
         private void FirstOnValidate(){
             mask.LoadMask();
-
-            //Settingを初期化
-            _delay.Initialize();
             _audioControll.ReadyAudioTime();
 
             //Musicに値を適応
@@ -83,6 +80,7 @@ namespace Ken{
             _content.ReadyStartAndEnd();//楽曲設定の時だけ
             _timeLine.ReadyTimeLine();
             _soundWave.CreateSoundWave();
+            _delay.Initialize();
 
             StartCoroutine("OneMore");
         }
@@ -94,6 +92,15 @@ namespace Ken{
             yield return new WaitForSeconds(time);
             _soundWave.CreateSoundWave();
             mask.LoadMask();
+        }
+
+        IEnumerator TakeOneTime()
+        {
+            //初期化
+            _audioControll.ReadyAudioTime();
+
+            //雑に数秒待つ
+            yield return new WaitForSeconds(3);
         }
     }
 }
