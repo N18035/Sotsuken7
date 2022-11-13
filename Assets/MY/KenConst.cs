@@ -21,5 +21,9 @@ namespace Ken
         //単位はUIのRect座標で、微調整する必要があったりする
         public static readonly float _originStart=-382.96f;
         public static readonly float _originalEnd=388.62f;
+
+
+        //Zoomの最大拡大値
+        public static readonly int MaxZoomLevel = 10;
     }
 }

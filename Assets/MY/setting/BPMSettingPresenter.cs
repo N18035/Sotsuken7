@@ -9,6 +9,7 @@ namespace Ken.Setting
     public class BPMSettingPresenter : MonoBehaviour
     {
         [SerializeField] BPMSetting _bpmSetting;
+        [SerializeField] AudioControl con;
         [SerializeField] Slider _slider;
         [SerializeField] Button up;
         [SerializeField] Button down;
@@ -16,8 +17,7 @@ namespace Ken.Setting
         [SerializeField] Button off;
         [SerializeField] GameObject setting;
         [SerializeField] Text text;
-        [SerializeField] AudioSource _audioSource;
-        [SerializeField] AudioControl con;
+        
 
         float speed;
 
@@ -46,10 +46,8 @@ namespace Ken.Setting
             .AddTo(this);
 
             on.onClick.AsObservable()
-            .Subscribe(_ => {
-                if(_audioSource.clip == null)   return;
-                setting.SetActive(true);
-            })
+            .Where(_ => !AudioCheck.I.ClipIsNull())
+            .Subscribe(_ => setting.SetActive(true))
             .AddTo(this);
 
             off.onClick.AsObservable()

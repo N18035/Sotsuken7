@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ken.Beat{
+    [RequireComponent(typeof(Collider))]
     public class BeatSound : MonoBehaviour
     {
-        [SerializeField]private AudioSource _audioSource;
         private AudioSource _SESource;
-        public AudioClip[] SEClips = new AudioClip[3];
-        [SerializeField]private int _beatSoundNum=0;
+        [SerializeField] AudioClip[] SEClips = new AudioClip[3];
+        private int _beatSoundNum=0;
+        [SerializeField] AudioSource _audio;
 
         void Start(){
             _SESource = GetComponent<AudioSource>();
@@ -16,7 +17,7 @@ namespace Ken.Beat{
 
         void Update()
         {
-            if(!_audioSource.isPlaying) return;
+            if(!_audio.isPlaying) return;
             if(_beatSoundNum==2) return;
 
             if(Music.IsJustChangedBeat()){

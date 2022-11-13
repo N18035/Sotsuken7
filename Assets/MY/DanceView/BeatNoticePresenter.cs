@@ -12,9 +12,7 @@ namespace Ken.DanceView{
         [SerializeField] AudioControl _audioControl;
 
         [SerializeField] BeatNoticeView view;
-        [SerializeField] Music _music;
-        [SerializeField] AudioSource _audioSource;
-
+        [SerializeField] AudioSource _audio;
 
         void Start(){
             _audioImport.OnSelectMusic
@@ -22,22 +20,18 @@ namespace Ken.DanceView{
             .AddTo(this);
 
             this.UpdateAsObservable()
-            .Where(_ => _audioSource.isPlaying)
-            .Subscribe(_ => view.PlayBeatNotice())
+            .Where(_ => _audio.isPlaying)
+            .Subscribe(_ => Check())
             .AddTo(this);
 
             _audioControl.OnSeek
-            // .Where(_ => _musicEngine.timeSamples < _music.EntryPointSample)
-            .Where(_ => !Music.Just.IsNull())
             .Subscribe(_ => view.DeleteNotice())
             .AddTo(this);
         }
 
-
-    void Update(){
-            if(_audioSource.clip == null) return;
-            if(Music.Just.IsNull())   view.DeleteNotice();
-            
+        void Check(){
+            if(Music.Just.IsNull()) view.DeleteNotice();
+            else view.PlayBeatNotice();
         }
     }
 }

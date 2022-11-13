@@ -11,13 +11,15 @@ namespace Ken.DanceView{
         [SerializeField] Image _image;
         [SerializeField] Sprite play;
         [SerializeField] Sprite pause;
-        [SerializeField] AudioSource _audioSource;
         [SerializeField] AudioControl _audioControl;
         [SerializeField] AudioImport _audioImport;
+        AudioCheck check;
 
         void Start(){
+            check = AudioCheck.I;
+
             _button.onClick.AsObservable()
-            .Where(_ => _audioSource.clip != null)
+            .Where(_ => !AudioCheck.I.ClipIsNull())
             .Subscribe(_ => Click())
             .AddTo(this);
 
@@ -27,7 +29,7 @@ namespace Ken.DanceView{
         }
 
         void Click(){
-            if(_audioSource.isPlaying){
+            if(check.IsPlaying()){
                 //停止処理
                 _image.sprite = play;
                 _audioControl.Pause();
