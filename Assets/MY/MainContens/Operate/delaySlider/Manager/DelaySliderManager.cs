@@ -5,12 +5,16 @@ using UnityEngine.UI;
 using UniRx;
 using System;
 using System.Linq;
+using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
 
 namespace Ken.Delay
 {
     public class DelaySliderManager : MonoBehaviour
     {
+        [ReadOnly]
         public int now=0;
+        [ReadOnly]
+        public bool allChange=false;
         public List<GameObject> Sliders = new List<GameObject>(1);
 
         public IReactiveProperty<int> OnNowChanged => _nowChange;
@@ -19,7 +23,7 @@ namespace Ken.Delay
         [SerializeField] CountPresenter count;
         [SerializeField] SettingPresenter setting;
 
-        public bool allChange=false;
+        
         float oneBeat;
 
         //委譲
@@ -67,14 +71,9 @@ namespace Ken.Delay
 
         //初期化
         public void Reset(){
-            //消す
-            for(int i=1;i<Sliders.Count;i++){
-                Destroy(Sliders[i]);
-                Sliders.RemoveAt(i);
-                Debug.Log(i);
-            }
-
-            // add.Reset();
+            Sliders.Clear();
+            var obj = add.Reset();
+            Sliders.Add(obj);
             
             //初期値代入
             Sliders[0].GetComponent<SliderPresenter>().Ready();

@@ -3,40 +3,42 @@ using UnityEditor;
 
 public static class HierarchyEx
 {
-    private const int ICON_SIZE = 16;
+// #if UNITY_EDITOR
+//     private const int ICON_SIZE = 16;
 
-    [InitializeOnLoadMethod]
-    private static void Initialize()
-    {
-        EditorApplication.hierarchyWindowItemOnGUI += OnGUI;
-    }
+//     [InitializeOnLoadMethod]
+//     private static void Initialize()
+//     {
+//         EditorApplication.hierarchyWindowItemOnGUI += OnGUI;
+//     }
     
-    private static void OnGUI(int instanceID, Rect selectionRect)
-    {
-        // instanceID をオブジェクト参照に変換
-        var go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
-        if (go == null)
-        {
-            return;
-        }
+//     private static void OnGUI(int instanceID, Rect selectionRect)
+//     {
+//         // instanceID をオブジェクト参照に変換
+//         var go = EditorUtility.InstanceIDToObject(instanceID) as GameObject;
+//         if (go == null)
+//         {
+//             return;
+//         }
 
-        // オブジェクトが所持しているコンポーネント一覧を取得
-        var components = go.GetComponents<Component>();
-        if (components.Length == 0)
-        {
-            return;
-        }
+//         // オブジェクトが所持しているコンポーネント一覧を取得
+//         var components = go.GetComponents<Component>();
+//         if (components.Length == 0)
+//         {
+//             return;
+//         }
 
-        selectionRect.x = selectionRect.xMax - ICON_SIZE * components.Length;
-        selectionRect.width = ICON_SIZE;
+//         selectionRect.x = selectionRect.xMax - ICON_SIZE * components.Length;
+//         selectionRect.width = ICON_SIZE;
 
-        foreach (var component in components)
-        {
-            // コンポーネントのアイコン画像を取得
-            var texture2D = AssetPreview.GetMiniThumbnail(component);
+//         foreach (var component in components)
+//         {
+//             // コンポーネントのアイコン画像を取得
+//             var texture2D = AssetPreview.GetMiniThumbnail(component);
 
-            GUI.DrawTexture(selectionRect, texture2D);
-            selectionRect.x += ICON_SIZE;
-        }
-    }
+//             GUI.DrawTexture(selectionRect, texture2D);
+//             selectionRect.x += ICON_SIZE;
+//         }
+//     }
+// #endif
 }

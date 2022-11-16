@@ -18,7 +18,7 @@ public class SliderView : MonoBehaviour
 
 
     public void BigImage(){
-        handle.transform.localScale = new Vector3(3f, 3f, 3f);
+        handle.transform.localScale = new Vector3(3.5f, 1f, 1f);
         sen.enabled = true;
     }
 
