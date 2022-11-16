@@ -16,12 +16,14 @@ namespace Ken.Delay
             return t;
         }
 
-        public void Reset(){
-            Destroy(Parents);
-
-            var t = Instantiate(Parents,this.transform.position,Quaternion.identity);
-            t.transform.SetParent(this.gameObject.transform,false);
+        public GameObject Reset(){
+            foreach(Transform child in Parents.transform){
+                Destroy(child.gameObject);
+            }
+            
+            return Instant();
         }
+
     }
 }
 

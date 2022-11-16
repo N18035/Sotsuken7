@@ -12441,8 +12441,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1001188272}
   m_HandleRect: {fileID: 1001188271}
   m_Direction: 0
-  m_Value: 0.9913793
-  m_Size: 0.99999547
+  m_Value: 1
+  m_Size: 0.8003205
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12608,6 +12608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 3630168698130613858}
+  count: {fileID: 1309565174}
   _music: {fileID: 3186058684642838091}
 --- !u!4 &1309565173
 Transform:
@@ -17130,7 +17131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -390.31668, y: 48.703373}
+  m_AnchoredPosition: {x: -390.31677, y: 48.703373}
   m_SizeDelta: {x: 780.63, y: 49}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1891165539
@@ -18973,11 +18974,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   now: 0
+  allChange: 0
   Sliders:
   - {fileID: 1590337240}
   count: {fileID: 1309565174}
   setting: {fileID: 570198939}
-  allChange: 0
 --- !u!114 &3630168698130613862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19334,9 +19335,17 @@ PrefabInstance:
       propertyPath: Manager
       value: 
       objectReference: {fileID: 3630168698130613858}
+    - target: {fileID: 5210533165694353625, guid: 2e12749ed6a273540b22c53abbe043f8, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5210533165694353626, guid: 2e12749ed6a273540b22c53abbe043f8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6713089169272033903, guid: 2e12749ed6a273540b22c53abbe043f8, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e12749ed6a273540b22c53abbe043f8, type: 3}

@@ -69,5 +69,10 @@ namespace Ken.Delay{
         public void PublicValidate(){
             ValidateDelay();
         }
+
+        public void Reset(){
+            tmpIndex=0;
+            NowIndex=0;
+        }
     }
 }
