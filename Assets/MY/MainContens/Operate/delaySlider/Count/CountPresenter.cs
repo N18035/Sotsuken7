@@ -74,5 +74,14 @@ namespace Ken.Delay{
             tmpIndex=0;
             NowIndex=0;
         }
+
+        public DelayData GetDelayData(){
+            return data;
+        }
+
+        public void SetDelayData(DelayData dd){
+            data = dd;
+            ValidateDelay();
+        }
     }
 }

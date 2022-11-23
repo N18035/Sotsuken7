@@ -139,6 +139,21 @@ namespace Ken.Delay
             return data;
         }
 
+        public void DeCreateDelayTimeData(DelayData data){
+            //破壊
+            Reset();
+            Sliders[0].GetComponent<Slider>().value = data.GetTime(0);
+            Sliders[0].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(0));
+
+            // if(data.GetCount() <=0) return;
+
+            // for(int i=1;i<data.GetCount();i++){
+            //     AddSlider(PM.Plus);
+            //     Sliders[i].GetComponent<Slider>().value = data.GetTime(1);
+            //     Sliders[i].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(i));
+            // }
+        }
+
         public float GetNowValue(){
             return Sliders[now].GetComponent<Slider>().value;
         }
