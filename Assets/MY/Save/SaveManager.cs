@@ -14,6 +14,10 @@ namespace Ken.Save
         string filepath;                            // jsonファイルのパス
         [ReadOnly] public string fileName = "Test.json";              // jsonファイル名
 
+
+        //確認用
+        [SerializeField]DelayData Cdata;
+
         //-------------------------------------------------------------------
         //開始時にファイルチェック、読み込み
         void Start(){
@@ -26,7 +30,7 @@ namespace Ken.Save
             // Application.streamingAssetsPath : /Assets/StreamingAssets
             // Application.persistentDataPath : C:/Users/xxxx/AppData/LocalLow/CompanyName/ProductName
 
-            filepath = Application.persistentDataPath + "/" + fileName;    
+            filepath = Application.dataPath + "/" + fileName;    
         }
 
         //-------------------------------------------------------------------
@@ -50,6 +54,7 @@ namespace Ken.Save
         // jsonファイル読み込み
         public void Load()
         {
+            Path();
             //ファイルがあるならやる
             if (!File.Exists(filepath)) return;
 
@@ -59,8 +64,15 @@ namespace Ken.Save
                                                                     
             var data = JsonUtility.FromJson<DelayData>(json);            // jsonファイルを型に戻して返す
 
-            manager.DeCreateDelayTimeData(data);
-            count.SetDelayData(data);
+            Cdata = data;
+
+            manager.JsonToDelayTimeData(data);
+
+            for (int i = 0; i < data.GetCount(); i++)
+            {
+                manager.ChangeNow(i);
+                manager.BPMSet(data.GetBPM(i));
+            }
         }
 
         public void SetName(string s){

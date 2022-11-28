@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 using System;
-using VContainer.Unity;
 using Ken.Setting;
 using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
 
@@ -20,11 +19,14 @@ namespace Ken.Delay
 
         private Slider thisSlider;
 
-        [BoxGroup("データ")][ReadOnly]
-        [SerializeField]int BPM;
-        public int BPMs => BPM;
-        [BoxGroup("データ")][ReadOnly]
-        [SerializeField] int id;
+        // [BoxGroup("データ")][ReadOnly]
+        [SerializeField]int bpm;
+        // int BPM;
+        public int BPM => bpm;
+
+        // [BoxGroup("データ")][ReadOnly]
+        // [SerializeField] int id;
+        int id;
         public int ID => id;
         public void SetID(int id)
         {
@@ -33,7 +35,9 @@ namespace Ken.Delay
 
         public void SetBPM(int bpm)
         {
-            BPM = bpm;
+            
+            this.bpm = bpm;
+            Debug.Log(id + "SetBPM" + this.bpm);
         }
         
         
@@ -46,7 +50,7 @@ namespace Ken.Delay
 
         void Start()
         {
-            BPM = 120;
+            bpm = 10;
             thisSlider = this.gameObject.GetComponent<Slider>();
 
             thisSlider.onValueChanged.AsObservable()

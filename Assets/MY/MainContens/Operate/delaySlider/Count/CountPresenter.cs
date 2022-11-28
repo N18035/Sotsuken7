@@ -14,11 +14,8 @@ namespace Ken.Delay{
         [SerializeField] Setting.BPMSetting _bpmSetting;
         [SerializeField] AudioSource audioSource;
  
-        bool Flag=false;
         float buffer;
-
         [SerializeField]DelayData data;
-
         int tmpIndex=0;
         int NowIndex=0;
 
@@ -42,11 +39,7 @@ namespace Ken.Delay{
 
         void Start(){
             audioControl.OnPlayStart
-            .Subscribe(_ =>{
-                // data = manager.CreateDelayTimeData();
-                // StarPublish();
-                ValidateDelay();
-            })
+            .Subscribe(_ => ValidateDelay())
             .AddTo(this);
         }
 
@@ -56,8 +49,11 @@ namespace Ken.Delay{
 
             // 一般的には44100
             _music.EntryPointSample = (int)(data.GetTime(tmpIndex) * audioSource.clip.frequency);
-            _bpmSetting.ChangeBPM(data.GetBPM(tmpIndex));
-            _bpmSetting.Apply();
+            
+            Debug.Log("ValidateDelay"+data.GetBPM(tmpIndex));
+            // _bpmSetting.ChangeBPM(data.GetBPM(tmpIndex));
+            // _bpmSetting.Apply();
+
             NowIndex = tmpIndex;
             //TODO UIに指示
             // DelayPresenter.I.GO();
@@ -77,11 +73,6 @@ namespace Ken.Delay{
 
         public DelayData GetDelayData(){
             return data;
-        }
-
-        public void SetDelayData(DelayData dd){
-            data = dd;
-            ValidateDelay();
         }
     }
 }

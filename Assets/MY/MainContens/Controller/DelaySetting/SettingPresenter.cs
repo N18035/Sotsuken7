@@ -45,7 +45,7 @@ namespace Ken.Delay{
             .AddTo(this);
 
             addSliderRight.onClick.AsObservable()
-            .Subscribe(_ => manager.AddSlider(PM.Plus))
+            .Subscribe(_ => manager.AddSlider())
             .AddTo(this);
 
             removeSlider.onClick.AsObservable()
