@@ -35,9 +35,7 @@ namespace Ken.Delay
 
         public void SetBPM(int bpm)
         {
-            
             this.bpm = bpm;
-            Debug.Log(id + "SetBPM" + this.bpm);
         }
         
         
@@ -50,7 +48,6 @@ namespace Ken.Delay
 
         void Start()
         {
-            bpm = 10;
             thisSlider = this.gameObject.GetComponent<Slider>();
 
             thisSlider.onValueChanged.AsObservable()
@@ -68,8 +65,6 @@ namespace Ken.Delay
             .Subscribe(t => thisSlider.value = 0)
             .AddTo(this);
         }
-
-
     }
 }
 

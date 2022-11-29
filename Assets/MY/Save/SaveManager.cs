@@ -3,6 +3,8 @@ using UnityEngine;
 using Ken.Delay;
 using System.Text;
 using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
+using UniRx;
+using System;
 
 namespace Ken.Save
 {
@@ -12,7 +14,13 @@ namespace Ken.Save
         [SerializeField] CountPresenter count;
         [SerializeField] DelaySliderManager manager;
         string filepath;                            // jsonファイルのパス
-        [ReadOnly] public string fileName = "Test.json";              // jsonファイル名
+        [ReadOnly] public string fileName = ".json";              // jsonファイル名
+
+        public IReactiveProperty<string> Info => _error;
+        private readonly ReactiveProperty<string> _error = new ReactiveProperty<string>();
+
+        public IObservable<Unit> OnLoad => load;
+        private readonly Subject<Unit> load = new Subject<Unit>();
 
 
         //確認用
@@ -40,7 +48,10 @@ namespace Ken.Save
             Path();
 
             //ファイルがあるならやらない
-            if (File.Exists(filepath)) return;
+            if (File.Exists(filepath)){
+                _error.Value = "そのファイルは既に存在しています";
+                return;
+            }
 
             Debug.Log("セーブ");
             DelayData data = count.GetDelayData();
@@ -49,6 +60,8 @@ namespace Ken.Save
             StreamWriter wr = new StreamWriter(filepath, false);    // ファイル書き込み指定
             wr.WriteLine(json);                                     // json変換した情報を書き込み
             wr.Close();                                             // ファイル閉じる
+
+            _error.Value = "保存しました:"+filepath;
         }
 
         // jsonファイル読み込み
@@ -56,7 +69,10 @@ namespace Ken.Save
         {
             Path();
             //ファイルがあるならやる
-            if (!File.Exists(filepath)) return;
+            if (!File.Exists(filepath)){
+                _error.Value = "ファイルが存在しません";
+                return;
+            }
 
             StreamReader rd = new StreamReader(filepath);               // ファイル読み込み指定
             string json = rd.ReadToEnd();                           // ファイル内容全て読み込む
@@ -66,13 +82,11 @@ namespace Ken.Save
 
             Cdata = data;
 
-            manager.JsonToDelayTimeData(data);
+            var loadComplete =  manager.JsonToDelayTimeData(data);
+            if(loadComplete)   _error.Value = "ロード完了";
+            else    _error.Value = "一部開始点が読み込めませんでした。ロードしたデータに間違いはありませんか？";
 
-            for (int i = 0; i < data.GetCount(); i++)
-            {
-                manager.ChangeNow(i);
-                manager.BPMSet(data.GetBPM(i));
-            }
+            load.OnNext(Unit.Default);
         }
 
         public void SetName(string s){

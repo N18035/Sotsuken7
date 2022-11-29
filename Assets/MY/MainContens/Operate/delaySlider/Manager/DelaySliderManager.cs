@@ -44,8 +44,6 @@ namespace Ken.Delay
 
             var obj = InstantSlider();
             obj.GetComponent<Slider>().value = check.GetTime();
-            // obj.GetComponent<SliderPresenter>().SetBPM(100);
-            BPMSet(100);
             
             count.PublicValidate();
         }
@@ -124,40 +122,49 @@ namespace Ken.Delay
             List<float> time = new List<float>(){0};
             List<int> bpm = new List<int>(){0};
 
-            // time[0] = Sliders[0].GetComponent<Slider>().value;
             time[0] = Sliders[0].GetComponent<Slider>().value;
             bpm[0] = Sliders[0].GetComponent<SliderPresenter>().BPM;
-            Debug.Log("0CreateDelayTimeData"+Sliders[0].GetComponent<SliderPresenter>().BPM);
 
             for(int i=1;i<Sliders.Count;i++){
                 time.Add(Sliders[i].GetComponent<Slider>().value);
                 bpm.Add(Sliders[i].GetComponent<SliderPresenter>().BPM);
-                Debug.Log(i+"CreateDelayTimeData"+Sliders[i].GetComponent<SliderPresenter>().BPM);
             }
 
             DelayData data = new DelayData(time,bpm);
             return data;
         }
 
-        public void JsonToDelayTimeData(DelayData data){
+        public bool JsonToDelayTimeData(DelayData data){
             //破壊
             Reset();
             Sliders[0].GetComponent<Slider>().value = data.GetTime(0);
             Sliders[0].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(0));
 
-            if(data.GetCount() <=0) return;
+            //1個だけなら終了
+            if(data.GetCount() <=0){ 
+                end();
+                return true;
+            }else{
+                check.TryGetAudioLength(out var length); 
+                for(int i=1;i<data.GetCount();i++){
+                    //クリップの長さよりも点が大きければ間違いなので止める
+                    if(length < data.GetTime(i)){
+                        end();
+                        return false;
+                    } 
 
-            for(int i=1;i<data.GetCount();i++){
-                // Debug.Log(i);
-                var obj = InstantSlider();
-                obj.GetComponent<Slider>().value = data.GetTime(i);
-//                Sliders[i].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(i));
-//                Debug.Log(Sliders[0].GetComponent<SliderPresenter>().BPM);
+                    var obj = InstantSlider();
+                    obj.GetComponent<Slider>().value = data.GetTime(i);
+                    Sliders[i].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(i));
+                }
+                end();
+                return true;
             }
 
-            //nowを変更しましょう
-            ChangeNow(0);
-            count.PublicValidate();
+            void end(){
+                ChangeNow(0);
+                count.PublicValidate();
+            }
         }
 
         public float GetNowValue(){

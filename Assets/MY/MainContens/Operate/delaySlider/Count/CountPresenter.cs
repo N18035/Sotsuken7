@@ -50,9 +50,9 @@ namespace Ken.Delay{
             // 一般的には44100
             _music.EntryPointSample = (int)(data.GetTime(tmpIndex) * audioSource.clip.frequency);
             
-            Debug.Log("ValidateDelay"+data.GetBPM(tmpIndex));
-            // _bpmSetting.ChangeBPM(data.GetBPM(tmpIndex));
-            // _bpmSetting.Apply();
+            //BPMをセット
+            _bpmSetting.ChangeBPM(data.GetBPM(tmpIndex));
+            _bpmSetting.Apply();
 
             NowIndex = tmpIndex;
             //TODO UIに指示
