@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
+using Ken.Save;
 
 namespace Ken.Delay{
     [RequireComponent(typeof(InputField))]
@@ -12,6 +13,7 @@ namespace Ken.Delay{
 
         [SerializeField] DelaySliderManager manager;
         [SerializeField] AudioControl _audioControl;
+        [SerializeField] SaveManager save;
 
         void Start(){
             thisInput = this.gameObject.GetComponent<InputField>();
@@ -40,6 +42,10 @@ namespace Ken.Delay{
                 if(s == 1) thisInput.textComponent.color = Color.black;
                 else thisInput.textComponent.color = Color.red;
             })
+            .AddTo(this);
+
+            save.OnLoad
+            .Subscribe(_ =>SetBPM(_audioControl.Speed.Value,manager.GetNowBPM()))
             .AddTo(this);
         }
 

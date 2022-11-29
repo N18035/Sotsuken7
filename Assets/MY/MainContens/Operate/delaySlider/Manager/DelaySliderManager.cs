@@ -35,20 +35,14 @@ namespace Ken.Delay
             add = this.GetComponent<Add>();
         }
 
-        public void AddSlider(PM pm){
+        public void AddSlider(){
             if(check.ClipIsNull()) return;
             
             for(int i=0;i<Sliders.Count;i++){
                 if(Sliders[i].GetComponent<Slider>().value == check.GetTime()) return;
             }
 
-            var obj = add.Instant();
-            Sliders.Add(obj);
-            //被り防止はいったん無し
-            
-            obj.GetComponent<SliderPresenter>().Ready();
-            now = Sliders.Count -1;
-            Sliders[now].GetComponent<SliderPresenter>().SetID(now);
+            var obj = InstantSlider();
             obj.GetComponent<Slider>().value = check.GetTime();
             
             count.PublicValidate();
@@ -92,7 +86,7 @@ namespace Ken.Delay
             
             // 「60(1分)÷BPM(テンポ)で４分音符一拍分の長さ」(s)
             // 例) 60 / 120 = 0.5s
-            oneBeat = 60f / Sliders[now].GetComponent<SliderPresenter>().BPMs;
+            oneBeat = 60f / Sliders[now].GetComponent<SliderPresenter>().BPM;
 
             if(pm == PM.Plus) Sliders[now].GetComponent<Slider>().value += oneBeat;
             else    Sliders[now].GetComponent<Slider>().value -= oneBeat;
@@ -127,31 +121,50 @@ namespace Ken.Delay
 
             List<float> time = new List<float>(){0};
             List<int> bpm = new List<int>(){0};
-            // time[0] = Sliders[0].GetComponent<Slider>().value;
+
             time[0] = Sliders[0].GetComponent<Slider>().value;
-            bpm[0] = Sliders[0].GetComponent<SliderPresenter>().BPMs;
+            bpm[0] = Sliders[0].GetComponent<SliderPresenter>().BPM;
 
             for(int i=1;i<Sliders.Count;i++){
                 time.Add(Sliders[i].GetComponent<Slider>().value);
-                bpm.Add(Sliders[i].GetComponent<SliderPresenter>().BPMs);
+                bpm.Add(Sliders[i].GetComponent<SliderPresenter>().BPM);
             }
+
             DelayData data = new DelayData(time,bpm);
             return data;
         }
 
-        public void DeCreateDelayTimeData(DelayData data){
+        public bool JsonToDelayTimeData(DelayData data){
             //破壊
             Reset();
             Sliders[0].GetComponent<Slider>().value = data.GetTime(0);
             Sliders[0].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(0));
 
-            // if(data.GetCount() <=0) return;
+            //1個だけなら終了
+            if(data.GetCount() <=0){ 
+                end();
+                return true;
+            }else{
+                check.TryGetAudioLength(out var length); 
+                for(int i=1;i<data.GetCount();i++){
+                    //クリップの長さよりも点が大きければ間違いなので止める
+                    if(length < data.GetTime(i)){
+                        end();
+                        return false;
+                    } 
 
-            // for(int i=1;i<data.GetCount();i++){
-            //     AddSlider(PM.Plus);
-            //     Sliders[i].GetComponent<Slider>().value = data.GetTime(1);
-            //     Sliders[i].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(i));
-            // }
+                    var obj = InstantSlider();
+                    obj.GetComponent<Slider>().value = data.GetTime(i);
+                    Sliders[i].GetComponent<SliderPresenter>().SetBPM(data.GetBPM(i));
+                }
+                end();
+                return true;
+            }
+
+            void end(){
+                ChangeNow(0);
+                count.PublicValidate();
+            }
         }
 
         public float GetNowValue(){
@@ -159,7 +172,7 @@ namespace Ken.Delay
         }
 
         public int GetNowBPM(){
-            return Sliders[now].GetComponent<SliderPresenter>().BPMs;
+            return Sliders[now].GetComponent<SliderPresenter>().BPM;
         }
 
         public void CheckBatting(){
@@ -182,6 +195,16 @@ namespace Ken.Delay
                 Debug.Log(String.Join(", ", duplicates));
             } 
             else setting.Batting(false);
+        }
+
+        GameObject InstantSlider(){
+            var obj = add.Instant();
+            Sliders.Add(obj);           
+            obj.GetComponent<SliderPresenter>().Ready();
+            now = Sliders.Count -1;
+            Sliders[now].GetComponent<SliderPresenter>().SetID(now);
+
+            return obj;
         }
     }
 

@@ -33,7 +33,7 @@ namespace Ken
         public bool TryGetAudioLength(out float time){
             if(_audio.clip != null){
                 time = _audio.clip.length;
-                return false;
+                return true;
             }else{
                 throw new Exception("ClipがNullです");
             }            
