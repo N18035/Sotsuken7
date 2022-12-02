@@ -13,6 +13,7 @@ namespace Ken.Save
         // public SaveTest data;     // json変換するデータのクラス
         [SerializeField] CountPresenter count;
         [SerializeField] DelaySliderManager manager;
+        [SerializeField]FileReplacePresenter replace;
         string filepath;                            // jsonファイルのパス
         [ReadOnly] public string fileName = ".json";              // jsonファイル名
 
@@ -25,6 +26,7 @@ namespace Ken.Save
 
         //確認用
         [SerializeField]DelayData Cdata;
+        
 
         //-------------------------------------------------------------------
         //開始時にファイルチェック、読み込み
@@ -50,18 +52,11 @@ namespace Ken.Save
             //ファイルがあるならやらない
             if (File.Exists(filepath)){
                 _error.Value = "そのファイルは既に存在しています";
+                replace.Open();
                 return;
             }
 
-            Debug.Log("セーブ");
-            DelayData data = count.GetDelayData();
-
-            string json = JsonUtility.ToJson(data);                 // jsonとして変換
-            StreamWriter wr = new StreamWriter(filepath, false);    // ファイル書き込み指定
-            wr.WriteLine(json);                                     // json変換した情報を書き込み
-            wr.Close();                                             // ファイル閉じる
-
-            _error.Value = "保存しました:"+filepath;
+            WriteJson();
         }
 
         // jsonファイル読み込み
@@ -95,6 +90,18 @@ namespace Ken.Save
             StringBuilder sb = new StringBuilder(s);
             sb.Append(".json");
             fileName = sb.ToString();
+        }
+
+        public void WriteJson(){
+            Debug.Log("セーブ");
+            DelayData data = count.GetDelayData();
+
+            string json = JsonUtility.ToJson(data);                 // jsonとして変換
+            StreamWriter wr = new StreamWriter(filepath, false);    // ファイル書き込み指定
+            wr.WriteLine(json);                                     // json変換した情報を書き込み
+            wr.Close();                                             // ファイル閉じる
+
+            _error.Value = "保存しました:"+filepath;
         }
     }
 }

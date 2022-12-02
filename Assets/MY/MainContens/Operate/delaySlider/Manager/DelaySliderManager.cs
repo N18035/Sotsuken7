@@ -46,6 +46,7 @@ namespace Ken.Delay
             obj.GetComponent<Slider>().value = check.GetTime();
             
             count.PublicValidate();
+            ChangeNow(Sliders.Count-1);
         }
 
         public void RemoveSlider(){
