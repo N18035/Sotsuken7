@@ -14,7 +14,7 @@ namespace Ken.DanceView
         [SerializeField] Button backForward;
         [SerializeField] AudioSource _audioSource;
         [SerializeField] AudioControl _audioControl;
-
+        [SerializeField] TimeViewer timeViewer;
         void Start()
         {
             Restart.onClick.AsObservable()
@@ -32,6 +32,16 @@ namespace Ken.DanceView
             .Where(_ => _audioSource.clip != null)
             .Subscribe(_ => _audioControl.BackForward10())
             .AddTo(this);
+        }
+
+        void Update(){
+            if(_audioSource.clip == null) return;
+
+            //再生時間
+            timeViewer.AudioTIme(_audioSource.time.ToString("F2"));
+
+            if(Music.Just.IsNull())   timeViewer.MusicTime("---");
+            else                     timeViewer.MusicTime(Music.Just.ToString());
         }
     }
 }

@@ -9,16 +9,13 @@ namespace Ken.DanceView
     {
         [SerializeField] Text _musicTime;
         [SerializeField] Text _audioTime;
-        [SerializeField] AudioSource _audio;
 
-        void Update(){
-            if(!_audio.isPlaying) return;
+        public void AudioTIme(string s){
+            _audioTime.text = s;
+        }
 
-            _audioTime.text= _audio.time.ToString("F2");
-
-            if(Music.Just.IsNull())   _musicTime.text="---";
-            else                     _musicTime.text=Music.Just.ToString();            
-            
+        public void MusicTime(string s){
+            _musicTime.text = s;
         }
 
     }
