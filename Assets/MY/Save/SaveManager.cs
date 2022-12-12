@@ -3,6 +3,7 @@ using UnityEngine;
 using Ken.Delay;
 using System.Text;
 using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
+using System.Windows.Forms; //OpenFileDialog用に使う
 using UniRx;
 using System;
 
@@ -40,14 +41,17 @@ namespace Ken.Save
             // Application.streamingAssetsPath : /Assets/StreamingAssets
             // Application.persistentDataPath : C:/Users/xxxx/AppData/LocalLow/CompanyName/ProductName
 
-            filepath = Application.dataPath + "/" + fileName;    
+            //旧バージョン
+            filepath = UnityEngine.Application.dataPath + "/" + fileName;
         }
 
         //-------------------------------------------------------------------
         // jsonとしてデータを保存
         public void Save()
         {
-            Path();
+            // Path();
+            SaveFile();
+            filepath = filepath + "/" + fileName;
 
             //ファイルがあるならやらない
             if (File.Exists(filepath)){
@@ -57,12 +61,13 @@ namespace Ken.Save
             }
 
             WriteJson();
+
         }
 
         // jsonファイル読み込み
         public void Load()
         {
-            Path();
+            LoadFile();
             //ファイルがあるならやる
             if (!File.Exists(filepath)){
                 _error.Value = "ファイルが存在しません";
@@ -102,6 +107,66 @@ namespace Ken.Save
             wr.Close();                                             // ファイル閉じる
 
             _error.Value = "保存しました:"+filepath;
+        }
+
+
+        void SaveFile(){
+            string path="";
+
+            // OpenFileDialog open_file_dialog = new OpenFileDialog();
+            FolderBrowserDialog fbDialog = new FolderBrowserDialog();
+
+            // ダイアログの説明文を指定する
+            fbDialog.Description = "ダイアログの説明文";
+
+            // デフォルトのフォルダを指定する
+            // fbDialog.SelectedPath = @"C:";
+            fbDialog.SelectedPath = path;
+
+            // 「新しいフォルダーの作成する」ボタンを表示する
+            fbDialog.ShowNewFolderButton = true;
+
+            //フォルダを選択するダイアログを表示する
+            if (fbDialog.ShowDialog() == DialogResult.OK)
+            {
+                Debug.Log(fbDialog.SelectedPath);
+            }
+            else
+            {
+                Debug.Log("キャンセルされました");
+            }
+ 
+            // オブジェクトを破棄する
+            fbDialog.Dispose();
+
+            filepath = fbDialog.SelectedPath;
+            Debug.Log(filepath);
+        }
+
+
+        void LoadFile(){
+            string path="";
+
+            OpenFileDialog open_file_dialog = new OpenFileDialog();
+
+            //InputFieldの初期値を代入しておく(こうするとダイアログがその場所から開く)
+            open_file_dialog.FileName = path;
+
+            //jsonファイルを開くことを指定する
+            open_file_dialog.Filter = "jsonファイル|*.json";
+
+            //ファイルが実在しない場合は警告を出す(true)、警告を出さない(false)
+            open_file_dialog.CheckFileExists = false;
+
+            //ダイアログを開く
+            open_file_dialog.ShowDialog();
+
+            path = open_file_dialog.FileName;
+
+            //FIXME正確にはファイルが見つからないかどうかで判定したい
+            if(path == "") return;
+
+            filepath = path;
         }
     }
 }
