@@ -39,8 +39,10 @@ namespace Ken.Save{
 
             loadB.onClick.AsObservable()
             .Where(_ => !AudioCheck.I.ClipIsNull())
-            // .Where(_ => !AudioCheck.I.IsPlaying())
-            .Subscribe(_ =>manager.Load())
+            .Subscribe(_ =>{
+                manager.Load(out var s);
+                thisInput.text = s;
+            })
             .AddTo(this);
 
             manager.Info

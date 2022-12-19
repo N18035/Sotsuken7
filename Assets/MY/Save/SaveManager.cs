@@ -65,16 +65,18 @@ namespace Ken.Save
         }
 
         // jsonファイル読み込み
-        public void Load()
+        public void Load(out string s)
         {
             LoadFile();
             //ファイルがあるならやる
             if (!File.Exists(filepath)){
                 _error.Value = "ファイルが存在しません";
+                s="";
                 return;
             }
 
             StreamReader rd = new StreamReader(filepath);               // ファイル読み込み指定
+            s = filepath;
             string json = rd.ReadToEnd();                           // ファイル内容全て読み込む
             rd.Close();                                             // ファイル閉じる
                                                                     

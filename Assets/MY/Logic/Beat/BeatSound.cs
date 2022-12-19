@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ken.Beat{
-    [RequireComponent(typeof(Collider))]
     public class BeatSound : MonoBehaviour
     {
-        private AudioSource _SESource;
-        [SerializeField] AudioClip[] SEClips = new AudioClip[3];
-        private int _beatSoundNum=0;
+        [SerializeField] private AudioSource _SESource;
+        [SerializeField] private AudioSource _SESource2;
         [SerializeField] AudioSource _audio;
 
-        void Start(){
-            _SESource = GetComponent<AudioSource>();
-        }
+        BeatSoundData data;
 
         void Update()
         {
             if(!_audio.isPlaying) return;
-            if(_beatSoundNum==2) return;
+            if(data.Number==2) return;
 
             if(Music.IsJustChangedBeat()){
-                _SESource.Play();
+                if(Music.Just.Beat%4==0){
+                    if(data.Is1Up){
+                     _SESource.pitch = 1.3f;
+                    _SESource.Play();   
+                    }else{
+                        _SESource.pitch =1f;
+                        _SESource.Play();
+                    }
+                }else{
+                    if(!data.IsOnly1){
+                    _SESource.pitch =1f;
+                    _SESource.Play();  
+                    } 
+                }                 
             }
         }
 
-        public void SetBeatSound(int n){
-            _SESource.clip =  SEClips[n];
-            _beatSoundNum = n;
+        public void SetBeatSoundSetting(BeatSoundData d){
+            data = d;
         } 
-    
         #region 保留
         void PlayBeatSound(){
             // if(type==1){//音の変更アリ
@@ -62,7 +69,14 @@ namespace Ken.Beat{
             //     if(Music.IsJustChangedBeat())   Click.Play();
             // }
         }
-    #endregion
+    #endregion   
+    }
 
+    public struct BeatSoundData{
+        public int Number { get; }
+        public bool Is1Up { get; }
+        public bool IsOnly1 { get; }
+
+        public BeatSoundData(int n, bool isup, bool isonly1) { Number = n; Is1Up = isup; IsOnly1=isonly1; }
     }
 }
