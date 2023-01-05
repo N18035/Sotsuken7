@@ -4,7 +4,9 @@ using UnityEngine.UI;
 using UniRx;
 using UniRx.Triggers;
 
-public class SliderView : MonoBehaviour
+namespace Ken.Delay
+{
+    public class SliderView : MonoBehaviour
 {
     [SerializeField] Image handle;
     [SerializeField] Image sen;
@@ -26,4 +28,6 @@ public class SliderView : MonoBehaviour
         handle.transform.localScale = new Vector3(1f, 1f, 1f);
         sen.enabled = false;
     }
+}
+
 }

@@ -23,7 +23,7 @@ namespace Ken
 
         private int loopStart=0;
         private int loopEnd=0;
-        [SerializeField]private bool loopFlag=false;
+        private bool loopFlag=false;
 
         void Start(){
             this.UpdateAsObservable()
@@ -44,11 +44,10 @@ namespace Ken
             _play.OnNext(Unit.Default);
             _music.Play("musicengine","");
         }
-        IEnumerator stop()
-        {
-            //3秒停止
+        IEnumerator stop(){
             yield return new WaitForSeconds(1);
         }
+
         public void Pause(){
             if(_audioSource.clip == null) return;
             Music.Pause();

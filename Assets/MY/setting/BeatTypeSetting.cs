@@ -9,29 +9,31 @@ namespace Ken.Setting
 {
     public class BeatTypeSetting : MonoBehaviour
     {
-        private ReactiveProperty<int> _beattype = new ReactiveProperty<int>();
 
+        [SerializeField] Toggle BeatView48;
+        [SerializeField] Music music;
         public IObservable<Unit> OnSelectBeatType => _selectBeatType;
         private Subject<Unit> _selectBeatType = new Subject<Unit>();
 
-        [SerializeField] Text text;
-
-        [SerializeField] Music music;
 
         void Start(){
             ChangeBeatType(4);
 
-            _beattype
-            .Subscribe(t => text.text = t.ToString())
+            BeatView48.onValueChanged.AsObservable()
+            .Subscribe(b =>{
+                if(!b)   ChangeBeatType(4);
+                else ChangeBeatType(8);
+                _selectBeatType.OnNext(Unit.Default);
+            })
             .AddTo(this);
         }
 
-        public void ChangeBeatType(int a){//引数は3か4
-            music.myBar=a*a;
+        void ChangeBeatType(int a){//引数は3か4
             music.myBeat=a;
+            music.myBar=a*a;
 
-            _beattype.Value =a;
             _selectBeatType.OnNext(Unit.Default);
+            Debug.Log("せんたく");
         }
     }
 }
