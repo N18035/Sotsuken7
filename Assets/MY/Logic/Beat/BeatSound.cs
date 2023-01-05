@@ -8,6 +8,7 @@ namespace Ken.Beat{
         [SerializeField] private AudioSource _SESource;
         [SerializeField] private AudioSource _SESource2;
         [SerializeField] AudioSource _audio;
+        [SerializeField] Music music;
 
         BeatSoundData data;
 
@@ -17,7 +18,7 @@ namespace Ken.Beat{
             if(data.Number==2) return;
 
             if(Music.IsJustChangedBeat()){
-                if(Music.Just.Beat%4==0){
+                if(Music.Just.Beat%music.myTempo==0){
                     if(data.Is1Up){
                      _SESource.pitch = 1.3f;
                     _SESource.Play();   

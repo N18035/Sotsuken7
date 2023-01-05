@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
 using System.Windows.Forms; //OpenFileDialog用に使う
 using UniRx;
 using System;
+using System.Collections.Generic;
 
 namespace Ken.Save
 {
@@ -76,7 +77,14 @@ namespace Ken.Save
             }
 
             StreamReader rd = new StreamReader(filepath);               // ファイル読み込み指定
-            s = filepath;
+
+            //ファイル名を確定
+            string[] arr = filepath.Split('\\');
+            var list = new List<string>();
+            list.AddRange(arr);
+            s = list[list.Count-1];
+            //ファイル名確定終了
+
             string json = rd.ReadToEnd();                           // ファイル内容全て読み込む
             rd.Close();                                             // ファイル閉じる
                                                                     
