@@ -7,7 +7,6 @@ using UniRx.Triggers;
 namespace Ken.Save{
     public class SavePresenter : MonoBehaviour
     {
-        [SerializeField] InputField thisInput;
         [SerializeField] Button saveB;
         [SerializeField] Button loadB;
         [SerializeField] Text infoText;
@@ -16,33 +15,14 @@ namespace Ken.Save{
         
 
         void Start(){
-            
-            thisInput.OnEndEditAsObservable()
-            .Where(t => t!=null)
-            .Where(t => t!="")
-            .Subscribe(t =>{
-                manager.SetName(t);
-            })
-            .AddTo(this);
-
             saveB.onClick.AsObservable()
-            .Where(_ => !thisInput.text.Equals(""))
             .Where(_ => !AudioCheck.I.ClipIsNull())
             .Subscribe(_ =>manager.Save())
             .AddTo(this);
 
-            saveB.onClick.AsObservable()
-            .Where(_ => thisInput.text.Equals(""))
-            .Where(_ => !AudioCheck.I.ClipIsNull())
-            .Subscribe(_ =>infoText.text = "ファイル名を入力してください")
-            .AddTo(this);
-
             loadB.onClick.AsObservable()
             .Where(_ => !AudioCheck.I.ClipIsNull())
-            .Subscribe(_ =>{
-                manager.Load(out var s);
-                thisInput.text = s;
-            })
+            .Subscribe(_ =>manager.Load())
             .AddTo(this);
 
             manager.Info
