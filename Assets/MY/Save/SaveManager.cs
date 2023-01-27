@@ -1,12 +1,10 @@
 using System.IO;
 using UnityEngine;
 using Ken.Delay;
-using System.Text;
 using Sirenix.OdinInspector;//SerializedMonoBehaviourを使うのに必要
 using System.Windows.Forms; //OpenFileDialog用に使う
 using UniRx;
 using System;
-using System.Collections.Generic;
 
 namespace Ken.Save
 {
@@ -15,16 +13,25 @@ namespace Ken.Save
         [SerializeField] CountPresenter count;
         [SerializeField] DelaySliderManager manager;
 
-        public IReactiveProperty<string> Info => _error;
-        private readonly ReactiveProperty<string> _error = new ReactiveProperty<string>();
+        public IReactiveProperty<string> Info => _inf;
+        private readonly ReactiveProperty<string> _inf = new ReactiveProperty<string>();
         public IObservable<Unit> OnLoad => load;
         private readonly Subject<Unit> load = new Subject<Unit>();
 
+        public IReactiveProperty<string> NowPath => _path;
+        private readonly ReactiveProperty<string> _path = new ReactiveProperty<string>("");
+
+
         //確認用
         [SerializeField]DelayData Cdata;
+
+        public void Save(){
+            if(_path.Equals("")) return;
+            WriteJson();
+        }
         
         // jsonとしてデータを保存
-        public void Save()
+        public void NewSave()
         {
             // ダイアログボックスの表示()
             SaveFileDialog sfd = new SaveFileDialog();
@@ -38,12 +45,17 @@ namespace Ken.Save
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                string fileName = sfd.FileName;
-                DelayData data = count.GetDelayData();
-                string json = JsonUtility.ToJson(data);// jsonとして変換
-                
-                File.WriteAllText(fileName, json);
+                //フィールドにパスを保存
+                _path.Value = sfd.FileName;
+                WriteJson();
             }
+        }
+
+        void WriteJson(){
+            DelayData data = count.GetDelayData();
+            string json = JsonUtility.ToJson(data);
+            File.WriteAllText(_path.Value, json);
+            _inf.Value = "保存しました";
         }
 
         // jsonファイル読み込み
@@ -63,8 +75,10 @@ namespace Ken.Save
             open_file_dialog.ShowDialog();
             string path="";
             path = open_file_dialog.FileName;
-            if(path == "") return;
+            if(path.Equals("")) return;
 
+            //フィールドに保存
+            _path.Value = path;
             //ここから読み込み
             StreamReader rd = new StreamReader(path);
 
@@ -75,8 +89,8 @@ namespace Ken.Save
             Cdata = data;
 
             var loadComplete =  manager.JsonToDelayTimeData(data);
-            if(loadComplete)   _error.Value = "ロード完了";
-            else    _error.Value = "一部開始点が読み込めませんでした。ロードしたデータに間違いはありませんか？";
+            if(loadComplete)   _inf.Value = "ロード完了";
+            else    _inf.Value = "一部開始点が読み込めませんでした。ロードしたデータに間違いはありませんか？";
 
             load.OnNext(Unit.Default);
         }
