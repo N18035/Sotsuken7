@@ -26,8 +26,10 @@ namespace Ken.Save
         [SerializeField]DelayData Cdata;
 
         public void Save(){
-            if(_path.Equals("")) return;
+            if(_path.Value.Equals("")) return;
             WriteJson();
+            _inf.Value = "上書き保存しました";
+            SystemSEManager.I.Good();
         }
         
         // jsonとしてデータを保存
@@ -48,6 +50,10 @@ namespace Ken.Save
                 //フィールドにパスを保存
                 _path.Value = sfd.FileName;
                 WriteJson();
+                _inf.Value = "新規保存しました";
+                SystemSEManager.I.Better();
+                MessageBox.Show("新規保存しました"+sfd.FileName, "通知", MessageBoxButtons.OK);
+                
             }
         }
 
@@ -55,7 +61,6 @@ namespace Ken.Save
             DelayData data = count.GetDelayData();
             string json = JsonUtility.ToJson(data);
             File.WriteAllText(_path.Value, json);
-            _inf.Value = "保存しました";
         }
 
         // jsonファイル読み込み

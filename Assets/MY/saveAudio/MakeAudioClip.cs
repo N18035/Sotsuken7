@@ -7,7 +7,7 @@ using System.IO;
 public class MakeAudioClip : MonoBehaviour
 {
     public AudioSource mainBGM;
-    public AudioSource beat;
+    [SerializeField] AudioClip beat;
 
     int BPM = 120;
 
@@ -23,7 +23,7 @@ public class MakeAudioClip : MonoBehaviour
 
         float[] samples = new float[sampleCount]; //音声データ用の配列
         
-        beat.clip.GetData(samples, 0); //既存のAudioClipから音声データを取得
+        beat.GetData(samples, 0); //既存のAudioClipから音声データを取得
 
         float beatInterval = 60f / (float)BPM; //1拍の長さ(秒)
         int beatIntervalSampleCount = (int)(beatInterval * frequency); //1拍の長さのサンプル数
@@ -36,6 +36,7 @@ public class MakeAudioClip : MonoBehaviour
         AudioClip clip = AudioClip.Create("ExistingClip", sampleCount, 1, frequency, false);
         clip.SetData(samples, 0);
 
+        //生成したのをファイルとして保存
         Save(clip);
     }
 
@@ -53,6 +54,8 @@ public class MakeAudioClip : MonoBehaviour
         if (sfd.ShowDialog() == DialogResult.OK)
         {
             File.WriteAllBytes(sfd.FileName, WavUtility.FromAudioClip(clip));
+            SystemSEManager.I.Better();
+            MessageBox.Show("新規保存しました"+sfd.FileName, "通知", MessageBoxButtons.OK);
         }
     }
 

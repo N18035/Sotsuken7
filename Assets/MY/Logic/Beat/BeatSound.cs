@@ -20,15 +20,15 @@ namespace Ken.Beat{
             if(Music.IsJustChangedBeat()){
                 if(Music.Just.Beat%music.myTempo==0){
                     if(data.Is1Up){
-                     _SESource.pitch = 1.3f;
-                    _SESource.Play();   
+                        // _SESource.pitch = 1.3f;
+                        _SESource2.Play();   
                     }else{
-                        _SESource.pitch =1f;
+                        // _SESource.pitch =1f;
                         _SESource.Play();
                     }
                 }else{
                     if(!data.IsOnly1){
-                    _SESource.pitch =1f;
+                    // _SESource.pitch =1f;
                     _SESource.Play();  
                     } 
                 }                 
