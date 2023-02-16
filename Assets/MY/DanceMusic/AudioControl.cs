@@ -12,8 +12,8 @@ namespace Ken
         [SerializeField] Music _music;
         [SerializeField] AudioSource _audioSource;
 
-        public IObservable<Unit> OnSeek =>_change;
-        private Subject<Unit> _change = new Subject<Unit>();
+        public IObservable<Unit> OnSeek =>_seeked;
+        private Subject<Unit> _seeked = new Subject<Unit>();
 
         public IObservable<Unit> OnPlayStart =>_play;
         private Subject<Unit> _play = new Subject<Unit>();
@@ -30,7 +30,7 @@ namespace Ken
             .Where(_ => _audioSource.time > (float)loopEnd && loopFlag)
             .Subscribe(_ =>{                 
                 _audioSource.time = loopStart;
-                _change.OnNext(Unit.Default);
+                _seeked.OnNext(Unit.Default);
             })
             .AddTo(this);
         }
@@ -55,26 +55,26 @@ namespace Ken
         public void ReStart(){
             if(_audioSource.clip == null) return;
             _audioSource.time = 0f;
-            _change.OnNext(Unit.Default);
+            _seeked.OnNext(Unit.Default);
         } 
         public void Forward10(){
             if(_audioSource.clip == null) return;
             if(_audioSource.time + 10f > _audioSource.clip.length) return;
             _audioSource.time += 10f;
-            _change.OnNext(Unit.Default);
+            _seeked.OnNext(Unit.Default);
         }
 
         public void BackForward10(){
             if(_audioSource.clip == null) return;
             if(_audioSource.time - 10f < 0) return;
             _audioSource.time -= 10f;
-            _change.OnNext(Unit.Default);
+            _seeked.OnNext(Unit.Default);
         }
         public void Seek(float length){
             if(_audioSource.clip == null) return;
 
             _audioSource.time = length;
-            _change.OnNext(Unit.Default);
+            _seeked.OnNext(Unit.Default);
         }
 
         public void Loop(int start,int end){
