@@ -1286,7 +1286,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 8f581d8e719950044acd0fae5040deee, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1cb52a92f88a03942a35edaea27358d8, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -3022,6 +3022,7 @@ GameObject:
   - component: {fileID: 229162099}
   - component: {fileID: 229162098}
   - component: {fileID: 229162101}
+  - component: {fileID: 229162102}
   m_Layer: 5
   m_Name: audiosave
   m_TagString: Untagged
@@ -3158,6 +3159,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainBGM: {fileID: 3186058684642838090}
   beat: {fileID: 116356192}
+  lib: {fileID: 229162102}
+  manager: {fileID: 3630168698130613858}
+--- !u!114 &229162102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229162096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a8472cce0a05b45aef3328e6866018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &232600302
 GameObject:
   m_ObjectHideFlags: 0
@@ -3289,7 +3304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dropdown: {fileID: 2070884350}
-  _audioCon: {fileID: 0}
+  _audioCon: {fileID: 2001237076}
 --- !u!1 &236129499
 GameObject:
   m_ObjectHideFlags: 0
@@ -6748,7 +6763,7 @@ MonoBehaviour:
   _image: {fileID: 90102340}
   play: {fileID: 21300000, guid: 54ad1a37644d6294f92da300a14a9142, type: 3}
   pause: {fileID: 21300000, guid: a3801626c0782fc4193f47d40609bcce, type: 3}
-  _audioControl: {fileID: 0}
+  _audioControl: {fileID: 2001237076}
   _audioImport: {fileID: 3186058684642838094}
 --- !u!1 &590895828
 GameObject:
@@ -8478,11 +8493,11 @@ MonoBehaviour:
   seSource1: {fileID: 116356192}
   seSource2: {fileID: 1020367547}
   SEClips:
-  - {fileID: 8300000, guid: 73a8ca0294bcce64592b952475465037, type: 3}
+  - {fileID: 8300000, guid: 1cb52a92f88a03942a35edaea27358d8, type: 3}
   - {fileID: 8300000, guid: fa4632b4e1692a54ca3b622538f93f10, type: 3}
   - {fileID: 0}
   SEClipsUP:
-  - {fileID: 8300000, guid: 73a8ca0294bcce64592b952475465037, type: 3}
+  - {fileID: 8300000, guid: 1cb52a92f88a03942a35edaea27358d8, type: 3}
   - {fileID: 8300000, guid: fa4632b4e1692a54ca3b622538f93f10, type: 3}
   - {fileID: 0}
 --- !u!114 &775013300
@@ -12639,7 +12654,7 @@ MonoBehaviour:
   forward: {fileID: 653669090}
   backForward: {fileID: 2021525398}
   _audioSource: {fileID: 3186058684642838090}
-  _audioControl: {fileID: 0}
+  _audioControl: {fileID: 2001237076}
   timeViewer: {fileID: 1924570972}
 --- !u!1 &1225827335
 GameObject:
@@ -12990,8 +13005,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1001188272}
   m_HandleRect: {fileID: 1001188271}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999711
+  m_Value: 1.0333333
+  m_Size: 0.5084723
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14601,7 +14616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1518601995
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17732,7 +17747,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -390.31677, y: 48.703373}
+  m_AnchoredPosition: {x: -390.3169, y: 48.703373}
   m_SizeDelta: {x: 780.63, y: 49}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1891165539
@@ -20503,7 +20518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasRect: {fileID: 1056503182}
   _contentZoom: {fileID: 1891165539}
-  _audioController: {fileID: 0}
+  _audioController: {fileID: 2001237076}
   _music: {fileID: 3186058684642838091}
   _audio: {fileID: 3186058684642838090}
 --- !u!222 &5176341579899827068
