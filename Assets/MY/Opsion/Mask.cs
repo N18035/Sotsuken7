@@ -7,10 +7,11 @@ namespace Ken.Setting
 {
     public class Mask : MonoBehaviour
     {
-        [SerializeField] Image mask;
+        [SerializeField] GameObject maske;
+
         public void LoadMask(){
-            mask.enabled = mask.enabled == true ? false:true;
-            // Debug.Log(mask.enabled);
+            var b = maske.activeSelf == true ? false:true;
+            maske.SetActive(b);
         }
     }
 }
